@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 public class EshopWebApplication {
-    //demo
+    //demods a  d
     public static void main(String[] args) {
         SpringApplication.run(EshopWebApplication.class, args);
     }
