@@ -3,7 +3,7 @@
 
 <mapper namespace="com.qingshixun.project.eshop.module.product.dao.ProductDaoMyBatis">
 
-  <select id="getHotProducts" resultType="ProductDTO">
+    <select id="getHotProducts" resultType="ProductDTO">
     SELECT
       pr.id,
       pr.name,
@@ -16,7 +16,7 @@
     LIMIT 5
   </select>
 
-  <select id="getNewProducts" resultType="ProductDTO">
+    <select id="getNewProducts" resultType="ProductDTO">
     SELECT
       pr.id,
       pr.name,
@@ -29,7 +29,7 @@
     LIMIT 5
   </select>
 
-  <select id="getBestProducts" resultType="ProductDTO">
+    <select id="getBestProducts" resultType="ProductDTO">
     SELECT
       pr.id,
       pr.name,
@@ -42,7 +42,7 @@
     LIMIT 5
   </select>
 
-  <select id="getProductsByCategory" resultType="ProductDTO">
+    <select id="getProductsByCategory" resultType="ProductDTO">
     SELECT
       pr.id,
       pr.name,
@@ -56,7 +56,7 @@
       pr.productCategory_id = #{categoryId}
   </select>
 
-  <select id="getProductsByPrice" resultType="ProductDTO">
+    <select id="getProductsByPrice" resultType="ProductDTO">
     SELECT
       pr.id,
       pr.name,
@@ -68,7 +68,7 @@
       pr.price = #{price}
   </select>
 
-  <select id="getProduct" resultType="ProductDTO">
+    <select id="getProduct" resultType="ProductDTO">
     SELECT
       pr.id,
       pr.name,
@@ -81,6 +81,23 @@
       qsx_product pr
     WHERE
       pr.id = #{productId}
+
   </select>
 
+    <select id="getProductBySelect" resultType="ProductDTO">
+     SELECT
+      pr.id,
+      pr.name,
+      pr.productImage,
+      pr.marketPrice,
+      pr.productType_id AS 'productType.id'
+    FROM
+      qsx_product pr
+    WHERE
+      1=1
+      <if test="selectAttribute!=null">
+        AND
+          pr.name LIKE CONCAT('%',#{selectAttribute},'%')
+      </if>
+  </select>
 </mapper>

@@ -64,4 +64,8 @@ public class ProductServiceImpl extends BaseService {
         return product;
     }
 
+    public List<ProductDTO> getProductBySelect(String selectAttribute){
+        return productDao.getProductBySelect(selectAttribute);
+    }
+
 }

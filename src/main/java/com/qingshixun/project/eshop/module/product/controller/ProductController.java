@@ -60,11 +60,12 @@ public class ProductController extends BaseController {
         if (!products.isEmpty()) {
             // 获取第一个商品的类型id
             Long typeId = products.get(0).getProductType().getId();
-
+            //品牌
             model.addAttribute("brands", brandService.getBrandsByCategory(categoryId));
+            //可选择的筛选条件
             model.addAttribute("productTypeAttributes", productTypeAttributeService.getProductTypeAttributesByProductType(typeId));
         }
-
+        //左侧分类
         model.addAttribute("productCategories", productCategoryService.getProductCategories());
         model.addAttribute("totalCartCount", cartItemService.getTotalCartCount(member, getSession()));
         model.addAttribute("products", products);
@@ -140,4 +141,30 @@ public class ProductController extends BaseController {
         }.handle();
     }
 
+
+    @RequestMapping("/list/selectAttribute")
+    public String demo(Model model, @RequestParam Long categoryId,@RequestParam String selectAttribute){
+        List<ProductDTO> products = productService.getProductBySelect(selectAttribute);
+
+        MemberDTO member = getCurrentUser();
+
+        // 非空验证
+        if (!products.isEmpty()) {
+            // 获取第一个商品的类型id
+            Long typeId = products.get(0).getProductType().getId();
+            //品牌
+            model.addAttribute("brands", brandService.getBrandsByCategory(categoryId));
+            //可选择的筛选条件
+            model.addAttribute("productTypeAttributes", productTypeAttributeService.getProductTypeAttributesByProductType(typeId));
+        }else {
+
+        }
+        //左侧分类
+        model.addAttribute("productCategories", productCategoryService.getProductCategories());
+        model.addAttribute("totalCartCount", cartItemService.getTotalCartCount(member, getSession()));
+        model.addAttribute("products", products);
+        model.addAttribute("categoryId", categoryId);
+
+        return "/product/list";
+    }
 }

@@ -18,6 +18,7 @@ var product = (function () {
   var status
   var brandId = ''
   var categoryId = ''
+  var tempValue
 
   function initList (categoryId) {
     categoryId = categoryId
@@ -26,6 +27,7 @@ var product = (function () {
       function () {
         searchPargam = ''
         var $parent = $(this).parent().parent()
+          console.log($parent)
         $parent.find('.productSelect').each(function (index) {
           $(this).removeClass('productSelect')
         })
