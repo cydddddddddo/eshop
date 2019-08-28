@@ -89,5 +89,13 @@
     WHERE
       id = #{orderId}
   </update>
+  
+  <delete id="deleteOrder">
+    DELETE 
+    FROM 
+    	qsx_order
+    WHERE 
+    	id = #{orderId};
+  </delete>
 
 </mapper>

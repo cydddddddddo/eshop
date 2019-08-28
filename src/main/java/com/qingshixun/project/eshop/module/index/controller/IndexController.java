@@ -25,7 +25,7 @@ public class IndexController extends BaseController {
 
     @Autowired
     private CartItemServiceImpl cartItemService;
-
+    
     @RequestMapping(value = {"/front/index", ""})
     public String index(Model model) {
         MemberDTO member = getCurrentUser();

@@ -38,5 +38,9 @@ public interface ProductDaoMyBatis {
      * 获取产品详情
      */
     ProductDTO getProduct(@Param("productId") Long productId);
-
+    
+    /**
+     * 更新商品库存
+     */
+    void saveProduct(@Param("productId") Long productId, @Param("store") int store);
 }

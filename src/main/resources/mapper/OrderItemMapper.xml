@@ -10,6 +10,7 @@
       pr.id AS 'product.id',
       pr.name AS 'product.name',
       pr.productImage AS 'product.productImage',
+      pr.price AS 'product.price',
       oi.totalPrice,
       oi.order_id AS 'order.id',
       oi.status_code AS 'status.code'
@@ -37,5 +38,12 @@
       #{status.code}
     )
   </insert>
-
+  
+   <delete id="deleteOrderItem">
+    DELETE 
+    FROM 
+    	qsx_order_item
+    WHERE 
+    	order_id = #{orderId};
+  </delete>
 </mapper>

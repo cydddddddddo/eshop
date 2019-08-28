@@ -49,6 +49,19 @@
       0
     )
   </insert>
+  
+    <update id="updateCartItem">
+    UPDATE
+    	qsx_cart_item 
+    SET
+      totalPrice = #{totalPrice},
+      member_id = #{member.id},
+      quantity = #{quantity},
+      product_id = #{product.id},
+      order_id = 0
+    WHERE
+      id = #{id}
+  </update>
 
   <update id="updateCartItemQuantity">
     UPDATE

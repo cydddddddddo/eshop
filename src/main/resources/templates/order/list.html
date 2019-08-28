@@ -51,7 +51,7 @@
           <li th:if="${order.status.code} == 'ORDS_Pay'"><a th:href="@{'/front/order/detail/'+${order.id}}">评价</a></li>
           <!--</c:when>-->
           <!--<c:otherwise>-->
-          <li th:if="${order.status.code} != 'ORDS_Pay'"><a th:href="@{'/front/order/main/'+${order.id}}">去付款</a></li>
+          <li th:if="${order.status.code} != 'ORDS_Pay'"><a th:href="@{'/front/order/main/'+${order.id}}">去付款</a><br><a th:href="@{'/front/order/delete/'+${order.id}}">取消订单</a></li>
           <!--</c:otherwise>-->
           <!--</c:choose>-->
         </ul>

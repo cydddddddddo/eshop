@@ -74,6 +74,7 @@
       pr.name,
       pr.marketPrice,
       pr.price,
+      pr.store,
       pr.screenshots,
       pr.productImage,
       pr.description
@@ -82,5 +83,13 @@
     WHERE
       pr.id = #{productId}
   </select>
-
+  
+  <update id="saveProduct">
+  UPDATE 
+  	qsx_product
+  SET
+  	store = #{store}
+  WHERE
+  	id = #{productId};
+  </update>
 </mapper>

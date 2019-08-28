@@ -23,7 +23,9 @@ public interface CartItemDaoMyBatis {
      * 保存购物车
      */
     void saveCartItem(CartItemDTO cartItem);
-
+    
+    void updateCartItem(CartItemDTO cartItem);
+    
     /**
      * 更新购物车商品数量
      */
