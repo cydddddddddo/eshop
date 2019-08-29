@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="productList" class="selectInfo">
+    <div class="selectInfo-title">
+        <div class="amount fr">
+            共<span class="amount2" th:text="${#lists.size(products)}"></span>件商品
+        </div>
+    </div>
+    <div class="item-info">
+        <ul>
+            <!-- 商品列表 -->
+            <div th:if="${#lists.isEmpty(products)}">没有此类商品！</div>
+            <li class="item-pic" th:each="product : ${products}">
+                <div class="picBox">
+                    <a th:href="@{/front/product/main(productId=${product.id})}"><img th:src="${product.productImage}" alt="商品-手机"></a>
+                </div>
+                <a th:href="@{/front/product/main(productId=${product.id})}" class="products-des" th:text="${product.name}"></a>
+                <div class="cur">
+                    <span class="products-price">￥<span th:text="${product.marketPrice}"></span></span><a href="#"><span th:text="${product.evaluateCount}"></span>条</a><em>评论</em>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

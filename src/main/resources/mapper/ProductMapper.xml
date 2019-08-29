@@ -85,19 +85,29 @@
   </select>
 
     <select id="getProductBySelect" resultType="ProductDTO">
-     SELECT
-      pr.id,
-      pr.name,
-      pr.productImage,
-      pr.marketPrice,
-      pr.productType_id AS 'productType.id'
-    FROM
-      qsx_product pr
-    WHERE
-      1=1
-      <if test="selectAttribute!=null">
-        AND
-          pr.name LIKE CONCAT('%',#{selectAttribute},'%')
-      </if>
-  </select>
+        SELECT
+        pr.id,
+        pr.name,
+        pr.productImage,
+        pr.marketPrice,
+        pr.productType_id AS 'productType.id',
+        pr.brand_id AS 'brand.id',
+      (SELECT COUNT(ev.id) FROM qsx_evaluate ev WHERE ev.product_id = pr.id) AS 'evaluateCount'
+        FROM
+        qsx_product pr
+        WHERE
+        1=1
+        <if test="selectAttribute!=null">
+            AND
+            pr.name LIKE CONCAT('%',#{selectAttribute},'%')
+        </if>
+        <if test="brandId!=0">
+            AND
+            pr.brand_id = #{brandId}
+        </if>
+        <if test="categoryId!=null">
+            AND
+            pr.productCategory_id = #{categoryId}
+        </if>
+    </select>
 </mapper>

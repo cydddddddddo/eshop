@@ -142,7 +142,7 @@ public class ProductController extends BaseController {
     }
 
 
-    @RequestMapping("/list/selectAttribute")
+    /*@RequestMapping("/list/selectAttribute")
     public String demo(Model model, @RequestParam Long categoryId,@RequestParam String selectAttribute){
         List<ProductDTO> products = productService.getProductBySelect(selectAttribute);
 
@@ -166,5 +166,18 @@ public class ProductController extends BaseController {
         model.addAttribute("categoryId", categoryId);
 
         return "/product/list";
+    }*/
+
+    @RequestMapping("/search/list")
+    public String getSelectProduct(Model model, @RequestParam(required = false) String searchPargam, @RequestParam(required = false) int brandId, @RequestParam Long categoryId){
+        String selectAttribute = null;
+        if (!("".equals(searchPargam))){
+            searchPargam = searchPargam.replace(",","%");
+             selectAttribute = searchPargam.substring(0,searchPargam.length()-1);
+        }
+
+        List<ProductDTO> products = productService.getProductBySelect(selectAttribute,brandId,categoryId);
+        model.addAttribute("products", products);
+        return "/product/select";
     }
 }

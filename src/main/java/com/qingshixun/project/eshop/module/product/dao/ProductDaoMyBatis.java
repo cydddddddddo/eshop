@@ -40,6 +40,6 @@ public interface ProductDaoMyBatis {
     ProductDTO getProduct(@Param("productId") Long productId);
 
 
-    List<ProductDTO> getProductBySelect(@Param("selectAttribute") String selectAttribute);
+    List<ProductDTO> getProductBySelect(@Param("selectAttribute") String selectAttribute,@Param("brandId") int brandId,@Param("categoryId") Long categoryId);
 
 }
