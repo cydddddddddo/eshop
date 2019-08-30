@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingshixun.project.eshop.module.question.dao.QuestionDaoMyBatis">
+    <resultMap type="QuestionDTO" id="QuestionDaoMyBatis">
+    	<id property="id" column="id" />
+    	<result property="question" column="question"></result>
+    	<collection property="answers" ofType="AnswerDTO"  javaType="List">
+    		<id property="id" column="answer_id"></id>
+    		<result property="questionId" column="question_id"></result>		
+    		<result property="answer" column="answer"></result>
+    	</collection>
+    </resultMap>
+ <select id="getQuestion" resultMap="QuestionDaoMyBatis">
+    SELECT
+      qu.id,
+      qu.question,
+      an.id,
+      an.answer,
+      an.question_id
+    FROM
+      qsx_answer an LEFT JOIN qsx_question qu ON an.question_id=qu.id
+  </select>
+</mapper>

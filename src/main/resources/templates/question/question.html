@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="header::headerFragment('常见问题')"></header>
+
+<body>   
+<div th:replace="header::header-body"></div>
+ <div class="wrap">
+  <div id="categoryItem" class="all-sort-list" style="height:451px;float: left;" >
+    <div class="item bo" style=" height: auto" th:each="question : ${questions}">
+      <h4>
+        <span style="width:1210px;margin: 0px auto;color: #f7f7f7;">·</span><a th:text="${question.question}"></a>
+      </h4>
+      <div class="item-list clearfix" style="display: none;
+	position: absolute;
+    width: 655px;
+    min-height: 0px;
+    _height: 200px;
+    background: #FFF;
+    left: 208px;
+    box-shadow: 0px 0px 10px #DDDDDD;
+    border: 1px solid #DDD;
+    top: 3px;
+    z-index: 10;">
+        <div class="subitem" >
+          <dl class="fore1" th:each="answer : ${question.answers}">
+            <dt style="width: 640px;float: left;line-height: 22px;text-align: left;padding: 3px 6px 0px 0px;font-weight: 700;color: #E4393C;">
+              <span style="color: #393939;">·</span><a th:text="${answer.answer}" style="color: #393939;text-decoration: none;" ></a>
+            </dt>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:replace="footer::footer-body"></div>
+<div th:replace="footer::footer"></div>
+<script type="text/javascript">
+
+  $(function () {
+    $('#searchPanel').show()
+    var bannerSlider = new Slider($('#banner_tabs'), {
+      time: 5000,
+      delay: 400,
+      event: 'hover',
+      auto: true,
+      mode: 'fade',
+      controller: $('#bannerCtrl'),
+      activeControllerCls: 'active'
+    })
+    $('#banner_tabs .flex-prev').click(function () {
+      bannerSlider.prev()
+    })
+    $('#banner_tabs .flex-next').click(function () {
+      bannerSlider.next()
+    })
+    //鼠标移动到分类上面触发事件
+    $('#categoryItem > .item').hover(function () {
+      var eq = $('#categoryItem > .item').index(this), //获取当前滑过是第几个元素
+        h = $('#categoryItem').offset().top, //获取当前下拉菜单距离窗口多少像素
+        s = $(window).scrollTop(), //获取游览器滚动了多少高度
+        i = $(this).offset().top, //当前元素滑过距离窗口多少像素
+        item = $(this).children('.item-list').height(), //下拉菜单子类内容容器的高度
+        sort = $('#categoryItem').height() //父类分类列表容器的高度
+      //如果子类的高度小于父类的高度
+      if (item < sort) {
+        if (eq == 0) {
+          $(this).children('.item-list').css('top', (i - h))
+        } else {
+          $(this).children('.item-list').css('top', (i - h) + 1)
+        }
+      } else {
+        //判断子类的显示位置，如果滚动的高度大于所有分类列表容器的高度
+        if (s > h) {
+          //则 继续判断当前滑过容器的位置 是否有一半超出窗口一半在窗口内显示的Bug,
+          if (i - s > 0) {
+            $(this).children('.item-list').css('top', (s - h) + 2)
+          } else {
+            $(this).children('.item-list').css('top', (s - h) - (-(i - s)) + 2)
+          }
+        } else {
+          $(this).children('.item-list').css('top', 3)
+        }
+      }
+
+      $(this).addClass('hover')
+      $(this).children('.item-list').css('display', 'block')
+    }, function () {
+      $(this).removeClass('hover')
+      $(this).children('.item-list').css('display', 'none')
+    })
+
+    $('.item > .item-list > .close').click(function () {
+      $(this).parent().parent().removeClass('hover')
+      $(this).parent().hide()
+    })
+  })
+</script>
+</body>
+</html>

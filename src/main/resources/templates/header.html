@@ -25,6 +25,7 @@
           <a th:if="${session['member']} == null" th:href="@{/front/login}">登录</a>|
           <a th:if="${session['member']} != null" th:href="@{/front/logout}">退出登录</a>
           <a th:if="${session['member']} == null" th:href="@{/front/register}">免费注册</a>|<a th:href="@{/front/order/list}">我的订单</a>
+          <a th:href="@{/front/question}">|常见问题</a>
         </div>
       </div>
     </div>
