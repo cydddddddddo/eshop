@@ -8,9 +8,7 @@ import java.util.List;
 @MyBatisRepository
 public interface AdvertisementDaoMyBatis {
 
-    /**
-     * 获取已启动的广告列表
-     */
+    
     List<AdvertisementDTO> getAdvertisements();
 
 }
