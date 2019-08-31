@@ -45,6 +45,25 @@
       ev.product_id = #{productId} AND
       ev.orderId = #{orderId}
   </select>
+  
+  <select id="getEvaluateByMember" resultType="EvaluateDTO">
+    SELECT
+      ev.id,
+      ev.score,
+      ev.updateTime,
+      ev.description,
+      me.id AS 'member.id',
+      me.userName AS 'member.userName',
+      ml.levelName AS 'member.level.levelName'
+    FROM
+      qsx_evaluate ev,
+      qsx_member me,
+      qsx_member_level ml
+    WHERE
+      ev.member_id = me.id AND
+      me.level_id = ml.id AND
+      ev.member_id = #{memberId}
+  </select>
 
   <select id="getTotalScoreByProduct" resultType="Integer">
     SELECT

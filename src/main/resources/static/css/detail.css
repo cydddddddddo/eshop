@@ -387,7 +387,7 @@
 /*已选择信息*/
 
 .right-bottom {
-    padding: 22px 20px;
+    padding: 0 20px;
 }
 
 .right-bottom-selected {
@@ -399,11 +399,13 @@
 }
 
 
-/*购买按钮*/
+/*加入购物车按钮*/
 
 .buyButton-box {
-    padding: 15px 0;
+    padding: 1px;
     height: 90px;
+    width: 313px;
+    float: left;
 }
 
 .button-box-add,
@@ -433,6 +435,34 @@
     font-size: 12px;
 }
 
+/*购买按钮*/
+.addButton-box {
+    padding: 1px;
+    height: 90px;
+    width: 313px;
+    float: right;
+}
+
+.addbutton-box-add,
+.button-box-buy {
+    height: 90px;
+    width: 313px;
+    float: right;
+}
+
+
+.addButton-box input {
+    height: 50px;
+    width: 185px;
+    text-align: center;
+    text-indent: 2em;
+    color: #FFF;
+    margin: 20px 0;
+    margin-left: 70px;
+    font-size: 20px;
+    background: url(../images/icon/buyCar.jpg) no-repeat 30px center #FF3300;
+    cursor: pointer;
+}
 
 /*下部区域*/
 

@@ -86,7 +86,7 @@ public class OrderController extends BaseController {
     public String save(Model model, @RequestParam(required = false, defaultValue = "") String params) {
         MemberDTO member = this.getCurrentUser();
         if (member == null) {
-            return "redirect:/front/index";
+            return "redirect:/front/login";
         }
 
         List<OrderItemDTO> orderItems = orderItemService.getSelectCart(params, getSession());

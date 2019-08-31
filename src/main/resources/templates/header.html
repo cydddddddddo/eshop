@@ -15,6 +15,13 @@
 
   <script th:src="@{/plugins/jquery-1.10.2.js}"></script>
 </head>
+
+<style>
+	body{
+		background:#252525;
+	}
+</style>
+
 <body>
 <div th:fragment="header-body">
   <div id="top" class="header">
@@ -24,7 +31,13 @@
           欢迎 <span th:if="${session['member']} != null" th:text="${session['member'].userName}"></span> 来到明博商城网！
           <a th:if="${session['member']} == null" th:href="@{/front/login}">登录</a>|
           <a th:if="${session['member']} != null" th:href="@{/front/logout}">退出登录</a>
-          <a th:if="${session['member']} == null" th:href="@{/front/register}">免费注册</a>|<a th:href="@{/front/order/list}">我的订单</a>
+          <a th:if="${session['member']} == null" th:href="@{/front/register}">免费注册</a>|
+          <!-- 未登陆时跳转至登陆页面 -->
+      <!--     <a th:if="${session['member']} != null" th:href="@{/front/order/list}">我的订单</a>
+          <a th:if="${session['member']} == null" th:href="@{/front/login}">我的订单</a>| -->
+          <!-- 新增个人中心 -->
+          <a th:if="${session['member']} != null" th:href="@{/front/personal}">个人中心</a>
+          <a th:if="${session['member']} == null" th:href="@{/front/login}">个人中心</a>
         </div>
       </div>
     </div>
@@ -53,11 +66,12 @@
         <div class="nav">
           <ul class="clearfix">
             <li><a th:href="@{/front/index}" class="current">首页</a></li>
-            <!--<li><a href="#">服装城</a></li>-->
-            <!--<li><a href="#">京东超市</a></li>-->
-            <!--<li><a href="#">团购</a></li>-->
-            <!--<li><a href="#">拍卖</a></li>-->
-            <!--<li><a href="#">在线游戏</a></li>-->
+            <li><a href="#">服装城</a></li>
+            <li><a th:href="@{https://chaoshi.jd.com}" class="current">京东超市</a></li>
+            <li><a th:href="@{http://192.168.9.144:8082}" class="current">电影</a></li>
+            <li><a th:href="@{https://sf.taobao.com/?spm=a21bo.2017.201859.6.5af911d9x3Urke}" class="current">拍卖</a></li>
+            <li><a th:href="@{http://www.4399.com/?dbdh}" class="current">在线游戏</a></li>
+            <li><a th:href="@{http://192.168.9.144:8080/chat}" class="current">在线聊天</a></li>
           </ul>
         </div>
       </div>
