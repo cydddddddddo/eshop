@@ -74,6 +74,7 @@
       pr.name,
       pr.marketPrice,
       pr.price,
+      pr.store,
       pr.screenshots,
       pr.productImage,
       pr.description
@@ -83,6 +84,17 @@
       pr.id = #{productId}
 
   </select>
+
+  
+   <update id="saveProduct">
+   UPDATE 
+   	 qsx_product
+   SET
+  	 store = #{store}
+   WHERE
+  	 id = #{productId};
+   </update>
+
 
     <select id="getProductBySelect" resultType="ProductDTO">
         SELECT
@@ -110,4 +122,5 @@
             pr.productCategory_id = #{categoryId}
         </if>
     </select>
+
 </mapper>

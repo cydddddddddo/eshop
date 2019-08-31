@@ -46,7 +46,7 @@ public class ProductController extends BaseController {
 
     @Autowired
     private OrderServiceImpl orderService;
-
+    
     /**
      * 商品列表页
      */
@@ -156,32 +156,6 @@ public class ProductController extends BaseController {
         }.handle();
     }
 
-    //伪搜索
-    /*@RequestMapping("/list/selectAttribute")
-    public String demo(Model model, @RequestParam Long categoryId,@RequestParam String selectAttribute){
-        List<ProductDTO> products = productService.getProductBySelect(selectAttribute);
-
-        MemberDTO member = getCurrentUser();
-
-        // 非空验证
-        if (!products.isEmpty()) {
-            // 获取第一个商品的类型id
-            Long typeId = products.get(0).getProductType().getId();
-            //品牌
-            model.addAttribute("brands", brandService.getBrandsByCategory(categoryId));
-            //可选择的筛选条件
-            model.addAttribute("productTypeAttributes", productTypeAttributeService.getProductTypeAttributesByProductType(typeId));
-        }else {
-
-        }
-        //左侧分类
-        model.addAttribute("productCategories", productCategoryService.getProductCategories());
-        model.addAttribute("totalCartCount", cartItemService.getTotalCartCount(member, getSession()));
-        model.addAttribute("products", products);
-        model.addAttribute("categoryId", categoryId);
-
-        return "/product/list";
-    }*/
 
     @RequestMapping("/search/list")
     public String getSelectProduct(Model model, @RequestParam(required = false) String searchPargam, @RequestParam(required = false) int brandId, @RequestParam Long categoryId){
@@ -195,4 +169,5 @@ public class ProductController extends BaseController {
         model.addAttribute("products", products);
         return "/product/select";
     }
+
 }

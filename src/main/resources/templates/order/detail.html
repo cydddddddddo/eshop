@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="rightArea fr">
-    <h2>评价晒单</h2>
+    <h2>我的订单</h2>
     <div class="product_list">
       <!-- 订单中的商品显示页面 -->
       <ul class="product_con" th:each="orderItem : ${orderItems}">
@@ -31,7 +31,8 @@
           <img th:src="${orderItem.product.productImage}">
           <span th:text="${orderItem.product.name}"></span>
         </li>
-        <li><a th:href="@{'/front/product/evaluate/'+${orderItem.product.id}+'/'+${orderId}}">评价晒单</a></li>
+        <li><a th:href="@{'/front/product/evaluate/'+${orderItem.product.id}+'/'+${orderId}}">评价晒单</a>
+        </li>
       </ul>
     </div>
   </div>
