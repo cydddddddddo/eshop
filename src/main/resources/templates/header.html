@@ -15,6 +15,13 @@
 
   <script th:src="@{/plugins/jquery-1.10.2.js}"></script>
 </head>
+
+<style>
+	body{
+		background:#252525;
+	}
+</style>
+
 <body>
 <div th:fragment="header-body">
   <div id="top" class="header">
@@ -28,8 +35,12 @@
 
 <!--          <a th:href="@{/front/order/list}">我的订单</a>-->
 <!--          未登陆时候，点击我的订单让他跳转到登陆界面-->
+          
           <a th:if="${session['member']}==null" th:href="@{/front/login}">我的订单</a>
-          <a th:if="${session['member']}!=null"th:href="@{/front/order/list}">我的订单</a>
+          <a th:if="${session['member']}!=null"th:href="@{/front/order/list}">我的订单</a> |
+           <!-- 新增个人中心 -->
+          <a th:if="${session['member']} != null" th:href="@{/front/personal}">个人中心</a>
+          <a th:if="${session['member']} == null" th:href="@{/front/login}">个人中心</a> |
           <a th:href="@{/front/help}">帮助中心</a>
 
         </div>
@@ -76,12 +87,14 @@
         <div class="nav">
           <ul class="clearfix">
             <li><a th:href="@{/front/index}" class="current">首页</a></li>
+
             <li><a th:href="@{http://localhost:8080/login/to_login}">商品秒杀</a></li>
             <li><a th:href="@{/front/sorting}">商品排行</a></li>
             <li><a th:href="@{https://ju.taobao.com/?spm=a21bo.2017.201859.2.5af911d9vaKJeX}">每日团购</a></li>
             <li><a th:href="@{https://a.jd.com/}">优惠卷</a></li>
             <li><a th:href="@{https://auction.jd.com/home.html}">拍卖</a></li>
             <li><a th:href="@{http://www.4399.com/}">在线游戏</a></li>
+
           </ul>
         </div>
       </div>

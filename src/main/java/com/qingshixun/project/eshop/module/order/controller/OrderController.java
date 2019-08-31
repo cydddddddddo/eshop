@@ -104,8 +104,10 @@ public class OrderController extends BaseController {
     public String save(Model model, @RequestParam(required = false, defaultValue = "") String params) {
         MemberDTO member = this.getCurrentUser();
         if (member == null) {
-//            return "redirect:/front/index";
+
+          //return "redirect:/front/index";
             //跳转到登陆界面
+
             return "redirect:/front/login";
         }
 

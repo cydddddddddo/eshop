@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="header::headerFragment('个人中心')"></header>
+<head>
+<meta charset="UTF-8">
+<title>个人中心</title>
+</head>
+
+<link rel="stylesheet" th:href="@{/css/account.css}" type="text/css">
+
+<body>
+
+<div th:replace="header::header-body"></div>
+	<div class="nav">
+	<br>
+	<br>
+          <ul class="clearfix">
+            <li><a th:href="@{http://localhost:8081/eweb/front/personal/history}" class="current">浏览记录</a></li>
+            <li><a th:href="@{http://localhost:8081/eweb/front/order/list}">我的订单</a></li>
+            <li><a th:href="@{http://localhost:8081/eweb/front/personal/address}">地址管理</a></li>
+            <li><a th:href="@{http://localhost:8081/eweb/front/personal/evaluate}" class="current">我的评价</a></li>
+          </ul>
+    </div>
+      
+<br>
+<br>
+<div th:replace="footer::footer-body"></div>
+<div th:replace="footer::footer"></div>
+
+</body>
+</html>

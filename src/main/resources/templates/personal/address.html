@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="header::headerFragment('地址管理')"></header>
+<head>
+<meta charset="UTF-8">
+<title>地址管理</title>
+</head>
+
+<link rel="stylesheet" th:href="@{/css/account.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/plugins/alert-confirm.css}" type="text/css">
+
+<body class="grey_bg">
+<div th:replace="header::header-body"></div>
+<div class="mainContent comWidth">
+  <div class="list-info-item cl">
+    <h4 class="title">
+    <!--http://localhost:8081/eweb/front/order/receiver/form/0/  
+    @{http://localhost:8081/eweb/front/order/receiver/form/receiver.id}
+    -->
+      收货地址<a class="js-open-modal add_receiver" href="#" data-modal-id="popup1">添加收货地址</a>
+    </h4>
+
+    <div class="content">
+      <ul>
+        <!-- 收货人列表页面 -->
+        <!-- 如果为默认收货人则添加选中状态-->
+        <li style="margin-top: 10px;" th:each="receiver : ${receivers}">
+          <span th:if="${member.defaultReceiverId} == ${receiver.id}">
+          <a href="#"><span id="defaultReceiver" class="pull-left reciver_select" th:data-id="${receiver.id}"><span th:text="${receiver.name}"></span></span></a>
+          <span> <span th:text="${receiver.name}"></span>&nbsp;<span th:text="${receiver.areaPath}"></span>&nbsp;&nbsp;&nbsp;<span th:text="${receiver.address}"></span></span>
+          <a class="js-open-modal eidt_receiver" href="#" data-modal-id="popup1" th:data-id="${receiver.id}">
+            <span class="fr"> 编辑</span>
+          </a>
+          <a class="default_receiver" th:data-id="${receiver.id}" href="#"><span class="fr"> 默认地址</span></a>
+          <a class="delete-receiver-btn" th:data-id="${receiver.id}" href="#"><span class="fr"> 删除</span></a>
+          </span>
+          <span th:if="${member.defaultReceiverId != receiver.id}">
+          <a href="#"><span class="pull-left reciver" th:data-id="${receiver.id}"><span th:text="${receiver.name}"></span></span></a>
+          <span> <span th:text="${receiver.name}"></span>&nbsp;<span th:text="${receiver.areaPath}"></span>&nbsp;&nbsp;&nbsp;<span th:text="${receiver.address}"></span></span>
+          <a class="js-open-modal eidt_receiver" href="#" data-modal-id="popup1" th:data-id="${receiver.id}">
+            <span class="fr"> 编辑</span></a>
+          <a class="set_default_receiver" th:data-id="${receiver.id}" href="#"><span class="fr"> 设置为默认地址</span></a>
+          <a class="delete-receiver-btn" th:data-id="${receiver.id}" href="#"><span class="fr"> 删除</span></a>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="popup1" class="modal-box" style="top: 237px; left: 30%;"></div>
+ </div>
+ 
+<div th:replace="footer::footer-body"></div>
+<div th:replace="footer::footer"></div>
+<script th:src="@{/js/address.js}"></script>
+
+<script>
+  var g_rootPath = '[[${#servletContext.contextPath}]]'
+
+  $(function () {
+    //初始化地址管理页面js
+    address.initMain()
+  })
+</script>
+
+</body>
+</html>

@@ -76,8 +76,19 @@ public class ProductDTO extends BaseDTO {
 
     // 商品类型属性列表
     private List<ProductTypeValueDTO> values = Lists.newArrayList();
+    
+    // 时间 浏览记录用
+    private String createTime;
 
-    public String getName() {
+    public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getName() {
         return name;
     }
 
