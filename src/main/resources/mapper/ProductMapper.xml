@@ -84,7 +84,7 @@
       pr.id = #{productId}
 
   </select>
-
+  
   
    <update id="saveProduct">
    UPDATE 

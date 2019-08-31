@@ -71,12 +71,14 @@ input.button{text-align:center;padding:10px 20px;width:300px;}
         </li>
         <li>总价<span id="total"></span>
         </li>
+
         	<a id="pay" th:if="${session['member']} == null" href="/eweb/front/login">
           		<li class="to_total">去结算</li>
        		</a>
         	<a id="pay" th:if="${session['member']} != null" href="#">
           		<li class="to_total">去结算</li>
         	</a>
+
       </ul>
     </ul>
   </div>

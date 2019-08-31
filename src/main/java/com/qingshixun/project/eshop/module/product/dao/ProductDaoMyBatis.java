@@ -39,7 +39,9 @@ public interface ProductDaoMyBatis {
      */
     ProductDTO getProduct(@Param("productId") Long productId);
 
-    
+
+//    List<ProductDTO> getProductsAll(String name);
+
     /**
      * 更新商品库存
      */
@@ -50,6 +52,7 @@ public interface ProductDaoMyBatis {
      * 查询筛选后商品
      */
     List<ProductDTO> getProductBySelect(@Param("selectAttribute") String selectAttribute,@Param("brandId") int brandId,@Param("categoryId") Long categoryId);
+
 
 
 }
