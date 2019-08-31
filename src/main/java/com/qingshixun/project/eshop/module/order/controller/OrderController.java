@@ -1,14 +1,20 @@
 package com.qingshixun.project.eshop.module.order.controller;
 
+import com.google.common.collect.Lists;
 import com.qingshixun.project.eshop.dto.MemberDTO;
 import com.qingshixun.project.eshop.dto.OrderDTO;
 import com.qingshixun.project.eshop.dto.OrderItemDTO;
+import com.qingshixun.project.eshop.dto.ProductDTO;
 import com.qingshixun.project.eshop.dto.ReceiverDTO;
+import com.qingshixun.project.eshop.module.cart.dao.CartItemDaoMyBatis;
 import com.qingshixun.project.eshop.module.cart.service.CartItemServiceImpl;
 import com.qingshixun.project.eshop.module.member.service.MemberServiceImpl;
+import com.qingshixun.project.eshop.module.order.dao.OrderDaoMyBatis;
 import com.qingshixun.project.eshop.module.order.service.OrderItemServiceImpl;
 import com.qingshixun.project.eshop.module.order.service.OrderServiceImpl;
+import com.qingshixun.project.eshop.module.product.dao.ProductDaoMyBatis;
 import com.qingshixun.project.eshop.module.product.service.ProductCategoryServiceImpl;
+import com.qingshixun.project.eshop.module.product.service.ProductServiceImpl;
 import com.qingshixun.project.eshop.module.receiver.service.ReceiverServiceImpl;
 import com.qingshixun.project.eshop.web.BaseController;
 import com.qingshixun.project.eshop.web.ResponseData;
@@ -42,7 +48,19 @@ public class OrderController extends BaseController {
 
     @Autowired
     private ProductCategoryServiceImpl productCategoryService;
-
+    
+    @Autowired
+    private ProductServiceImpl productService;
+    
+    @Autowired
+    private ProductDaoMyBatis productDao;
+    
+    @Autowired
+    private CartItemDaoMyBatis cartItemDao;
+    
+    @Autowired
+    private OrderDaoMyBatis orderDao;
+    
     /**
      * 进入我的订单页面
      *
@@ -52,7 +70,7 @@ public class OrderController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String orderList(Model model) {
-        MemberDTO member = this.getCurrentUser();
+    	MemberDTO member = this.getCurrentUser();
         // 传递商品分类数据
         model.addAttribute("productCategories", productCategoryService.getProductCategories());
         // 传递我的订单数据
@@ -86,6 +104,10 @@ public class OrderController extends BaseController {
     public String save(Model model, @RequestParam(required = false, defaultValue = "") String params) {
         MemberDTO member = this.getCurrentUser();
         if (member == null) {
+
+          //return "redirect:/front/index";
+            //跳转到登陆界面
+
             return "redirect:/front/login";
         }
 
@@ -131,7 +153,11 @@ public class OrderController extends BaseController {
         model.addAttribute("orderId", orderId);
         model.addAttribute("totalCartCount", cartItemService.getTotalCartCount(member, getSession()));
         model.addAttribute("member", member);
-        return "/front/order/main";
+        //(修改部分)在付款页面显示购买的商品信息
+        List<OrderItemDTO> orderItems = orderItemService.getOrderItemsByOrder(orderId);
+        model.addAttribute("orderItems", orderItems);
+        
+        return "/order/main";
     }
 
     @RequestMapping("/receiver/form/{receiverId}")
@@ -161,10 +187,11 @@ public class OrderController extends BaseController {
         return new SimpleHandler(request) {
             @Override
             protected void doHandle(ResponseData responseData) throws Exception {
+            	
                 responseData.setData(orderService.commitOrder(params, member, receiverId, getSession()));
             }
         }.handle();
-    }
+    }    
 
     /**
      * 模拟支付订单
@@ -179,11 +206,42 @@ public class OrderController extends BaseController {
         return new SimpleHandler(request) {
             @Override
             protected void doHandle(ResponseData responseData) throws Exception {
-                orderService.updateOrderStatus(orderId, "ORDS_Pay");
+
+            	orderService.updateOrderStatus(orderId, "ORDS_Pay");
+            	
+            	//购买成功后库存减少相应的数量（新增）
+                decreaseStore(orderId);
             }
         }.handle();
     }
-
+    
+    /**
+     * 购买成功后减少库存（新增）
+     * @param orderId
+     */
+    public void decreaseStore(Long orderId) {
+    	int store = 0;
+    	
+    	//遍历订单项
+    	List<OrderItemDTO> orderItemList = orderItemService.getOrderItemsByOrder(orderId);
+    	
+    	//每个订单项的对应的商品库存减去购买的商品数目
+    	for (OrderItemDTO orderItem : orderItemList) {
+    		//获取订单项目的商品Id
+    		Long productId = orderItem.getProduct().getId();
+    		//减少库存，并保存
+    		ProductDTO product = productService.getProduct(productId);
+    		store = product.getStore() - orderItem.getProductQuantity();  //计算库存
+    		productDao.saveProduct(productId , store);              //更新库存
+    		
+    		//获取会员的Id
+    		OrderDTO order = orderService.getOrder(orderId);
+    		Long memberId = order.getMember().getId();
+    		//购买成功后，删除购物车中的购买相应的商品
+    		cartItemDao.deletePurchasedGood(memberId , productId);
+    	}
+    }
+    
     /**
      * 保存收货人
      *
@@ -245,5 +303,39 @@ public class OrderController extends BaseController {
             }
         }.handle();
     }
-
+    
+    /**
+     * 取消（删除）待付款的订单（新增）
+     * @param model
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/delete/{orderId}", method = RequestMethod.GET)
+    public String deleteOrder(Model model ,@PathVariable Long orderId) {
+    	orderService.deleteOrder(orderId);
+    	return "/order/delete";
+    }
+    
+    /**
+     * 七天无理由退货（新增）
+     * @param model
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/after/{orderId}", method = RequestMethod.GET)
+    public String afterSale(Model model , @PathVariable Long orderId){
+    	
+    	//获取购买商品到现在的天数
+    	int day = orderDao.checkTime(orderId);
+    	
+    	//判断是否在七日之内
+    	if (day <= 7) {
+    		//七日内可成功退货
+    		orderDao.updateOrderStatus(orderId, "ORDS_Return");
+    		return "/order/after";
+    	}else {
+    		//超过七日，退货失败
+    		return "/order/fail";
+    	}
+    }
 }

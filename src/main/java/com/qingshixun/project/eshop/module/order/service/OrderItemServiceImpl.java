@@ -77,5 +77,12 @@ public class OrderItemServiceImpl extends BaseService {
     public void saveOrderItem(OrderItemDTO orderItem) {
         orderItemDao.saveOrderItem(orderItem);
     }
+    
+    /**
+     * 删除订单项(在OrderServiceImpl中调用)
+     */
+    public void deleteOrderItem(Long orderId) {
+    	orderItemDao.deleteOrderItem(orderId);
+    }
 
 }

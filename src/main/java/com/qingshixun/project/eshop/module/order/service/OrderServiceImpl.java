@@ -3,6 +3,7 @@ package com.qingshixun.project.eshop.module.order.service;
 import com.google.common.collect.Lists;
 import com.qingshixun.project.eshop.dto.*;
 import com.qingshixun.project.eshop.module.order.dao.OrderDaoMyBatis;
+import com.qingshixun.project.eshop.module.product.dao.ProductDaoMyBatis;
 import com.qingshixun.project.eshop.module.product.service.ProductServiceImpl;
 import com.qingshixun.project.eshop.module.receiver.service.ReceiverServiceImpl;
 import com.qingshixun.project.eshop.web.BaseService;
@@ -59,7 +60,15 @@ public class OrderServiceImpl extends BaseService {
 
         return orders;
     }
-
+    
+    /**
+     * 提交订单
+     * @param params
+     * @param member
+     * @param receiverId
+     * @param session
+     * @return
+     */
     public Long commitOrder(String params, MemberDTO member, Long receiverId, HttpSession session) {
         List<Long> productIds = Lists.newArrayList();
         Map<Long, Integer> productCountMap = new HashMap<Long, Integer>();
@@ -96,7 +105,7 @@ public class OrderServiceImpl extends BaseService {
             orderItem.setStatus(new OrderItemStatus("ORIS_UnGrant"));
             orderItemService.saveOrderItem(orderItem);
         }
-
+        
         saveOrder(order.getId(), member);
         return order.getId();
     }
@@ -132,7 +141,7 @@ public class OrderServiceImpl extends BaseService {
         return order;
 
     }
-
+    
     /**
      * 更新支付状态
      */
@@ -148,6 +157,14 @@ public class OrderServiceImpl extends BaseService {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmssSSS");
         String time = format.format(calendar.getTime());
         return time + "1" + String.valueOf(memberId);
+    }
+    
+    /**
+     * 删除订单（新增）
+     */
+    public void deleteOrder(Long orderId) {
+    	orderDao.deleteOrder(orderId);
+    	orderItemService.deleteOrderItem(orderId);
     }
 
 }

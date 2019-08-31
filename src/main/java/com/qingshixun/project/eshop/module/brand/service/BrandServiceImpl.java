@@ -18,7 +18,8 @@ public class BrandServiceImpl extends BaseService {
      * 获取指定类型的品牌列表
      */
     public List<BrandDTO> getBrandsByCategory(Long categoryId) {
-        return brandDao.getBrandsByCategory(categoryId);
+        List<BrandDTO> list = brandDao.getBrandsByCategory(categoryId);
+        return  list;
     }
 
 }

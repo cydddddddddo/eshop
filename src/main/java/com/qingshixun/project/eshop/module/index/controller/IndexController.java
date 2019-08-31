@@ -1,15 +1,23 @@
 package com.qingshixun.project.eshop.module.index.controller;
 
 import com.qingshixun.project.eshop.dto.MemberDTO;
+import com.qingshixun.project.eshop.dto.ProductDTO;
 import com.qingshixun.project.eshop.module.advertisement.service.AdvertisementServiceImpl;
 import com.qingshixun.project.eshop.module.cart.service.CartItemServiceImpl;
+import com.qingshixun.project.eshop.module.index.service.IndexServiceImpl;
 import com.qingshixun.project.eshop.module.product.service.ProductCategoryServiceImpl;
 import com.qingshixun.project.eshop.module.product.service.ProductServiceImpl;
 import com.qingshixun.project.eshop.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class IndexController extends BaseController {
@@ -26,10 +34,12 @@ public class IndexController extends BaseController {
     @Autowired
     private CartItemServiceImpl cartItemService;
 
+    @Autowired
+    private IndexServiceImpl indexService;
+
     @RequestMapping(value = {"/front/index", ""})
     public String index(Model model) {
         MemberDTO member = getCurrentUser();
-
         model.addAttribute("productCategories", productCategoryService.getProductCategories());
         model.addAttribute("advertisements", advertisementService.getAdvertisements());
         model.addAttribute("hotProducts", productService.getHotProducts());
@@ -41,6 +51,19 @@ public class IndexController extends BaseController {
 
         return "/index";
     }
+
+    /**
+     * 搜索所有商品数据
+     */
+    @RequestMapping(value = "/front/search")
+    public String search(Model model,@RequestParam(value="name",required=false) String name){
+        //查询商品
+        List<ProductDTO> productList=indexService.getProducts(name);
+        model.addAttribute("productList",productList);
+
+        return "/search";
+    }
+
 
     /**
      * 注册页面
@@ -63,4 +86,11 @@ public class IndexController extends BaseController {
         return "/login";
     }
 
+    /**
+     * 帮助中心
+     */
+    @RequestMapping("front/help")
+    public String help(){
+        return "/help";
+    }
 }

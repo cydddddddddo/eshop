@@ -28,5 +28,17 @@ public interface OrderDaoMyBatis {
      * 更新支付状态
      */
     void updateOrderStatus(@Param("orderId") Long orderId, @Param("statusCode") String statusCode);
-
+    
+    /**
+     * 删除订单
+     * @return 
+     */
+    void deleteOrder(@Param("orderId") Long orderId);
+    
+    /**
+     * 判断退货时间是否超过7天（新增）
+     * @param orderId
+     * @return
+     */
+    int checkTime(@Param("orderId") Long orderId);
 }

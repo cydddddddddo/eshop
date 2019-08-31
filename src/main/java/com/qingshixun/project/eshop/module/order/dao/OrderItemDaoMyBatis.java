@@ -18,5 +18,9 @@ public interface OrderItemDaoMyBatis {
      * 保存订单项
      */
     void saveOrderItem(OrderItemDTO orderItem);
-
+    
+    /**
+     * 删除订单项目
+     */
+    void deleteOrderItem(@Param("orderId") Long orderId);
 }
