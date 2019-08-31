@@ -46,7 +46,7 @@ public class ProductController extends BaseController {
 
     @Autowired
     private OrderServiceImpl orderService;
-
+    
     /**
      * 商品列表页
      */
@@ -139,5 +139,4 @@ public class ProductController extends BaseController {
             }
         }.handle();
     }
-
 }

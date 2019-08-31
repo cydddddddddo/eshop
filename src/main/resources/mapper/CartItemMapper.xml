@@ -78,5 +78,14 @@
     WHERE
       id = #{cartItemId}
   </delete>
+  
+  <delete id="deletePurchasedGood">
+    DELETE FROM
+      qsx_cart_item
+    WHERE
+      product_id = #{productId}
+      AND
+      member_id = #{memberId}
+  </delete>
 
 </mapper>

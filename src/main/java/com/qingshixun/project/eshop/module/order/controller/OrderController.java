@@ -6,8 +6,10 @@ import com.qingshixun.project.eshop.dto.OrderDTO;
 import com.qingshixun.project.eshop.dto.OrderItemDTO;
 import com.qingshixun.project.eshop.dto.ProductDTO;
 import com.qingshixun.project.eshop.dto.ReceiverDTO;
+import com.qingshixun.project.eshop.module.cart.dao.CartItemDaoMyBatis;
 import com.qingshixun.project.eshop.module.cart.service.CartItemServiceImpl;
 import com.qingshixun.project.eshop.module.member.service.MemberServiceImpl;
+import com.qingshixun.project.eshop.module.order.dao.OrderDaoMyBatis;
 import com.qingshixun.project.eshop.module.order.service.OrderItemServiceImpl;
 import com.qingshixun.project.eshop.module.order.service.OrderServiceImpl;
 import com.qingshixun.project.eshop.module.product.dao.ProductDaoMyBatis;
@@ -52,6 +54,13 @@ public class OrderController extends BaseController {
     
     @Autowired
     private ProductDaoMyBatis productDao;
+    
+    @Autowired
+    private CartItemDaoMyBatis cartItemDao;
+    
+    @Autowired
+    private OrderDaoMyBatis orderDao;
+    
     /**
      * 进入我的订单页面
      *
@@ -195,14 +204,15 @@ public class OrderController extends BaseController {
             protected void doHandle(ResponseData responseData) throws Exception {
 
             	orderService.updateOrderStatus(orderId, "ORDS_Pay");
-            	//购买成功后库存减少相应的数量
+            	
+            	//购买成功后库存减少相应的数量（新增）
                 decreaseStore(orderId);
             }
         }.handle();
     }
     
     /**
-     * 购买成功后减少库存
+     * 购买成功后减少库存（新增）
      * @param orderId
      */
     public void decreaseStore(Long orderId) {
@@ -219,6 +229,12 @@ public class OrderController extends BaseController {
     		ProductDTO product = productService.getProduct(productId);
     		store = product.getStore() - orderItem.getProductQuantity();  //计算库存
     		productDao.saveProduct(productId , store);              //更新库存
+    		
+    		//获取会员的Id
+    		OrderDTO order = orderService.getOrder(orderId);
+    		Long memberId = order.getMember().getId();
+    		//购买成功后，删除购物车中的购买相应的商品
+    		cartItemDao.deletePurchasedGood(memberId , productId);
     	}
     }
     
@@ -285,7 +301,7 @@ public class OrderController extends BaseController {
     }
     
     /**
-     * 取消（删除）待付款的订单
+     * 取消（删除）待付款的订单（新增）
      * @param model
      * @param orderId
      * @return
@@ -294,5 +310,28 @@ public class OrderController extends BaseController {
     public String deleteOrder(Model model ,@PathVariable Long orderId) {
     	orderService.deleteOrder(orderId);
     	return "/order/delete";
+    }
+    
+    /**
+     * 七天无理由退货（新增）
+     * @param model
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/after/{orderId}", method = RequestMethod.GET)
+    public String afterSale(Model model , @PathVariable Long orderId){
+    	
+    	//获取购买商品到现在的天数
+    	int day = orderDao.checkTime(orderId);
+    	
+    	//判断是否在七日之内
+    	if (day <= 7) {
+    		//七日内可成功退货
+    		orderDao.updateOrderStatus(orderId, "ORDS_Return");
+    		return "/order/after";
+    	}else {
+    		//超过七日，退货失败
+    		return "/order/fail";
+    	}
     }
 }

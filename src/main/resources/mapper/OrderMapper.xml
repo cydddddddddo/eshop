@@ -97,5 +97,15 @@
     WHERE 
     	id = #{orderId};
   </delete>
+  
+  <select id="checkTime" resultType="int">
+  SELECT 
+  	DATEDIFF (NOW(),updateTime) AS DiffDate
+  FROM
+  	qsx_order
+  WHERE
+  	id = #{orderId}
+  
+  </select>
 
 </mapper>

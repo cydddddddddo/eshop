@@ -34,5 +34,11 @@ public interface OrderDaoMyBatis {
      * @return 
      */
     void deleteOrder(@Param("orderId") Long orderId);
-
+    
+    /**
+     * 判断退货时间是否超过7天（新增）
+     * @param orderId
+     * @return
+     */
+    int checkTime(@Param("orderId") Long orderId);
 }

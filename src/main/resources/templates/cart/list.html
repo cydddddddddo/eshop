@@ -6,17 +6,6 @@
 input.button{text-align:center;padding:10px 20px;width:300px;}
 </style>
 
-<script>
-function judge() {
-	if (){
-		
-	}else{
-		alert("库存不足");
-		
-	}
-}
-</script>
-
 <header th:replace="header::headerFragment('购物车')"></header>
 <link rel="stylesheet" th:href="@{/plugins/alert-confirm.css}" type="text/css">
 <link rel="stylesheet" th:href="@{/css/product.css}" type="text/css">
@@ -65,7 +54,7 @@ function judge() {
           <li class="price" th:text="${cart.product.price}"></li>
           <li class="count">
             <input class="min" th:data-id="${cart.product.id}" type="button" value="-"/>
-            <input class="text_box" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" oninput = "judge()" th:data-id="${cart.product.id}" type="text" th:value="${cart.quantity}"/>
+            <input class="text_box" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" th:data-id="${cart.product.id}" type="text" th:value="${cart.quantity}"/>
             <input class="judge" hidden = "hidden" th:data-id="${cart.product.id}" type="text" th:value="${cart.product.store}">
             <input class="add" th:data-id="${cart.product.id}" name="" type="button" value="+"/>
           </li>

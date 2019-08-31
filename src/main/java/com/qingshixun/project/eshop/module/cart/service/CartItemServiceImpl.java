@@ -33,8 +33,9 @@ public class CartItemServiceImpl extends BaseService {
 
             for (CartItemDTO cartItem : cartItems) {
                 ProductDTO product = productService.getProduct(cartItem.getProduct().getId());
-
-                cartItem.setProduct(product);
+                //获取购物车的商品数量
+                Integer quantity = cartItem.getQuantity();
+                cartItem.setProduct(product , quantity);
             }
 
             return cartItems;
@@ -192,7 +193,7 @@ public class CartItemServiceImpl extends BaseService {
         // 如果为新添加的商品，则添加到购物车中去
         if (isNewProduct) {
             CartItemDTO cart = new CartItemDTO();
-            cart.setProduct(product);
+            cart.setProduct(product , 1);
             carts.add(cart);
         }
     }
@@ -288,11 +289,12 @@ public class CartItemServiceImpl extends BaseService {
         // 如果数据库已经存在购物项，该数量添加1.
         if (cartItem != null) {
             cartItem.setQuantity();
+            cartItem.setTotalPrice(cartItem.getTotalPrice() * cartItem.getQuantity());
             cartItemDao.updateCartItem(cartItem);
         }else {
             // 否则创建新的购物项
             cartItem = new CartItemDTO();
-            cartItem.setProduct(product);
+            cartItem.setProduct(product , 1);
             cartItem.setMember(member);
             cartItemDao.saveCartItem(cartItem);
         }

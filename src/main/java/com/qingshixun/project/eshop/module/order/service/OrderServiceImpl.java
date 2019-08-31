@@ -160,7 +160,7 @@ public class OrderServiceImpl extends BaseService {
     }
     
     /**
-     * 删除订单
+     * 删除订单（新增）
      */
     public void deleteOrder(Long orderId) {
     	orderDao.deleteOrder(orderId);
