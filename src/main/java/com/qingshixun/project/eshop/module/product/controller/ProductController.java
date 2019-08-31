@@ -60,11 +60,12 @@ public class ProductController extends BaseController {
         if (!products.isEmpty()) {
             // 获取第一个商品的类型id
             Long typeId = products.get(0).getProductType().getId();
-
+            //品牌
             model.addAttribute("brands", brandService.getBrandsByCategory(categoryId));
+            //可选择的筛选条件
             model.addAttribute("productTypeAttributes", productTypeAttributeService.getProductTypeAttributesByProductType(typeId));
         }
-
+        //左侧分类
         model.addAttribute("productCategories", productCategoryService.getProductCategories());
         model.addAttribute("totalCartCount", cartItemService.getTotalCartCount(member, getSession()));
         model.addAttribute("products", products);
@@ -73,6 +74,12 @@ public class ProductController extends BaseController {
         return "/product/list";
     }
 
+    /**
+     * 产品详情中的评论列表中除评论外的数据
+     * @param model
+     * @param productId
+     * @return
+     */
     @RequestMapping("/main")
     public String main(Model model, @RequestParam Long productId) {
         ProductDTO product = productService.getProduct(productId);
@@ -93,6 +100,13 @@ public class ProductController extends BaseController {
         return "/product/main";
     }
 
+    /**
+     * 获得评论数据
+     * @param model
+     * @param status
+     * @param productId
+     * @return
+     */
     @RequestMapping("/evaluate/list")
     public String evaluates(Model model, @RequestParam(required = false, defaultValue = "") String status, @RequestParam Long productId) {
         model.addAttribute("evaluates", evaluateService.getEvaluatesByStatusAndProduct(status, productId));
@@ -131,6 +145,8 @@ public class ProductController extends BaseController {
     @ResponseBody
     public ResponseData receiverSave(Model model, EvaluateDTO evaluate) {
         MemberDTO member = this.getCurrentUser();
+        //根据评论评分设置满意度
+        evaluate.setEvaluateStatus(evaluate.getScore());
 
         return new SimpleHandler(request) {
             @Override
@@ -139,4 +155,19 @@ public class ProductController extends BaseController {
             }
         }.handle();
     }
+
+
+    @RequestMapping("/search/list")
+    public String getSelectProduct(Model model, @RequestParam(required = false) String searchPargam, @RequestParam(required = false) int brandId, @RequestParam Long categoryId){
+        String selectAttribute = null;
+        if (!("".equals(searchPargam))){
+            searchPargam = searchPargam.replace(",","%");
+             selectAttribute = searchPargam.substring(0,searchPargam.length()-1);
+        }
+
+        List<ProductDTO> products = productService.getProductBySelect(selectAttribute,brandId,categoryId);
+        model.addAttribute("products", products);
+        return "/product/select";
+    }
+
 }
