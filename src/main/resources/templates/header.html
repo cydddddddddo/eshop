@@ -24,7 +24,12 @@
           欢迎 <span th:if="${session['member']} != null" th:text="${session['member'].userName}"></span> 来到明博商城网！
           <a th:if="${session['member']} == null" th:href="@{/front/login}">登录</a>|
           <a th:if="${session['member']} != null" th:href="@{/front/logout}">退出登录</a>
-          <a th:if="${session['member']} == null" th:href="@{/front/register}">免费注册</a>|<a th:href="@{/front/order/list}">我的订单</a>
+          <a th:if="${session['member']} == null" th:href="@{/front/register}">免费注册</a>|
+<!--          <a th:href="@{/front/order/list}">我的订单</a>-->
+<!--          未登陆时候，点击我的订单让他跳转到登陆界面-->
+          <a th:if="${session['member']}==null" th:href="@{/front/login}">我的订单</a>
+          <a th:if="${session['member']}!=null"th:href="@{/front/order/list}">我的订单</a>
+          <a th:href="@{/front/help}">帮助中心</a>
         </div>
       </div>
     </div>
@@ -33,6 +38,15 @@
         <div class="logo_icon fl">
           <a th:href="@{/front/index}"><img th:src="@{/images/logo.png}" alt="明博商城网"></a>
         </div>
+
+
+<!--          增加一个搜索框-->
+        <form action="search" style="position: absolute; top: 50px; left: 35% ;width: 400px;height: 100px">
+          <input type="text" name="name" placeholder="快速搜索商品" id="search-fld" style="display: inline-block;height: 50px;width: 200px;">
+          <button type="submit">搜索</button>
+        </form>
+
+
         <div id="searchPanel" class="searchBar fr" hidden="true">
           <div class="shopCar fl">
             <a th:href="@{/front/cart/list}">购物车</a>
@@ -41,6 +55,12 @@
             <a id="cartCount" href="#" th:text="${totalCartCount}"></a>
           </div>
         </div>
+
+<!--        &lt;!&ndash;        加个二维码&ndash;&gt;-->
+<!--        <div style="right: auto">-->
+<!--          <img src="https://mobilecodec.alipay.com/show.htm?code=a6x03400dhlebuavpp6rt33&picSize=M" width="90px" height="90px">-->
+<!--        </div>-->
+
       </div>
     </div>
     <div class="nav">
@@ -53,11 +73,12 @@
         <div class="nav">
           <ul class="clearfix">
             <li><a th:href="@{/front/index}" class="current">首页</a></li>
-            <!--<li><a href="#">服装城</a></li>-->
-            <!--<li><a href="#">京东超市</a></li>-->
-            <!--<li><a href="#">团购</a></li>-->
-            <!--<li><a href="#">拍卖</a></li>-->
-            <!--<li><a href="#">在线游戏</a></li>-->
+            <li><a th:href="@{http://localhost:8080/login/to_login}">商品秒杀</a></li>
+            <li><a th:href="@{/front/sorting}">商品排行</a></li>
+            <li><a th:href="@{https://ju.taobao.com/?spm=a21bo.2017.201859.2.5af911d9vaKJeX}">每日团购</a></li>
+            <li><a th:href="@{https://a.jd.com/}">优惠卷</a></li>
+            <li><a th:href="@{https://auction.jd.com/home.html}">拍卖</a></li>
+            <li><a th:href="@{http://www.4399.com/}">在线游戏</a></li>
           </ul>
         </div>
       </div>
