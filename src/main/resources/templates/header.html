@@ -25,11 +25,13 @@
           <a th:if="${session['member']} == null" th:href="@{/front/login}">登录</a>|
           <a th:if="${session['member']} != null" th:href="@{/front/logout}">退出登录</a>
           <a th:if="${session['member']} == null" th:href="@{/front/register}">免费注册</a>|
+
 <!--          <a th:href="@{/front/order/list}">我的订单</a>-->
 <!--          未登陆时候，点击我的订单让他跳转到登陆界面-->
           <a th:if="${session['member']}==null" th:href="@{/front/login}">我的订单</a>
           <a th:if="${session['member']}!=null"th:href="@{/front/order/list}">我的订单</a>
           <a th:href="@{/front/help}">帮助中心</a>
+
         </div>
       </div>
     </div>
@@ -50,6 +52,7 @@
         <div id="searchPanel" class="searchBar fr" hidden="true">
           <div class="shopCar fl">
             <a th:href="@{/front/cart/list}">购物车</a>
+            <!--  <a th:if="${session['member']} == null" th:href="@{/front/login}">购物车</a> -->
           </div>
           <div class="shopCar-count fl">
             <a id="cartCount" href="#" th:text="${totalCartCount}"></a>

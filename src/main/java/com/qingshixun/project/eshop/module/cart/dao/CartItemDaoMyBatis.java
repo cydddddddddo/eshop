@@ -23,7 +23,9 @@ public interface CartItemDaoMyBatis {
      * 保存购物车
      */
     void saveCartItem(CartItemDTO cartItem);
-
+    
+    void updateCartItem(CartItemDTO cartItem);
+    
     /**
      * 更新购物车商品数量
      */
@@ -33,5 +35,11 @@ public interface CartItemDaoMyBatis {
      * 删除购物车
      */
     void deleteCartItem(@Param("cartItemId") Long cartItemId);
-
+    
+    /**
+     * 在购买相应商品后，删除购物车中的相应商品
+     * @param memberId
+     * @param productId
+     */
+    void deletePurchasedGood(@Param("memberId") Long memberId, @Param("productId") Long productId);
 }

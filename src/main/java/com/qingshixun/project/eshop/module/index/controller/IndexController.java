@@ -40,7 +40,6 @@ public class IndexController extends BaseController {
     @RequestMapping(value = {"/front/index", ""})
     public String index(Model model) {
         MemberDTO member = getCurrentUser();
-
         model.addAttribute("productCategories", productCategoryService.getProductCategories());
         model.addAttribute("advertisements", advertisementService.getAdvertisements());
         model.addAttribute("hotProducts", productService.getHotProducts());
@@ -94,5 +93,4 @@ public class IndexController extends BaseController {
     public String help(){
         return "/help";
     }
-
 }
