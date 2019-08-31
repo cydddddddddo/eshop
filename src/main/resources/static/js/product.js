@@ -27,27 +27,35 @@ var product = (function () {
         $('.searchItem').click(
             function () {
                 searchPargam = ''
+                //判断点击的是否为已被选中的筛选条件（是否有productSelect样式）
+                //功能：再次点击被选中的条件则取消选择效果获得取消后查询结果
                 if ($(this).attr('class').indexOf("productSelect") > 0) {
-                    brandId = 0;
+                    //如果去取消的为品牌则使brandId为默认值
+                    var type_2 = $(this).data('type')
+                    if(type_2 == 'brand'){
+                        brandId = 0;
+                    }
+                    //取消选中效果
                     $(this).removeClass('productSelect')
                 } else {
+                    //取消同一个筛选下的其他条件选中效果
                     var $parent = $(this).parent().parent()
                     $parent.find('.productSelect').each(function (index) {
                         $(this).removeClass('productSelect')
                     })
                     $(this).addClass('productSelect')
-
-                    $('.productSelect').each(function (index) {
-                        var type = $(this).data('type')
-                        // alert($(this).html());
-                        if (type == 'brand') {
-                            brandId = $(this).data('id')
-                        } else {
-                            searchPargam += $(this).html() + ','
-                        }
-                    })
                 }
-
+                //根据页面选中效果，获得选择参数
+                $('.productSelect').each(function (index) {
+                    var type = $(this).data('type')
+                    // alert($(this).html());
+                    if (type == 'brand') {
+                        brandId = $(this).data('id')
+                    } else {
+                        searchPargam += $(this).html() + ','
+                    }
+                })
+                //ajax传参
                 $('#productList').load(
                     g_rootPath + '/front/product/search/list?searchPargam=' + searchPargam + '&brandId=' + brandId + '&categoryId=' + categoryId)
                 // + '&pageNo=' + 1 + '&productName=' + productName
@@ -55,13 +63,13 @@ var product = (function () {
     }
 
     function initMain(productId) {
-        $('#evaluateListPanel').load(g_rootPath + '/front/product/evaluate/list/?productId=' + productId)
+        $('#evaluateListPanel').load(g_rootPath + '/front/product/evaluate/list?productId=' + productId)
         $('.evaluateStatus').click(function () {
             $('.evaluateStatus').removeClass('active')
             $(this).addClass('active')
             status = $(this).data('value')
             var url
-            if (status == ' ') {
+            if (status == '全部') {
                 url = g_rootPath + '/front/product/evaluate/list/?productId=' + productId
             } else {
                 url = g_rootPath + '/front/product/evaluate/list/?productId=' + productId + '&status=' + status

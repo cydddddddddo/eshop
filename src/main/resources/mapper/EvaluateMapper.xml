@@ -19,7 +19,7 @@
     WHERE
       ev.member_id = me.id AND
       me.level_id = ml.id AND
-      <if test="status == ''">
+      <if test="status != ''">
         ev.evaluateStatus = #{status} AND
       </if>
       ev.product_id = #{productId}

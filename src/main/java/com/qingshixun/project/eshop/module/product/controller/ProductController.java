@@ -74,6 +74,12 @@ public class ProductController extends BaseController {
         return "/product/list";
     }
 
+    /**
+     * 产品详情中的评论列表中除评论外的数据
+     * @param model
+     * @param productId
+     * @return
+     */
     @RequestMapping("/main")
     public String main(Model model, @RequestParam Long productId) {
         ProductDTO product = productService.getProduct(productId);
@@ -94,6 +100,13 @@ public class ProductController extends BaseController {
         return "/product/main";
     }
 
+    /**
+     * 获得评论数据
+     * @param model
+     * @param status
+     * @param productId
+     * @return
+     */
     @RequestMapping("/evaluate/list")
     public String evaluates(Model model, @RequestParam(required = false, defaultValue = "") String status, @RequestParam Long productId) {
         model.addAttribute("evaluates", evaluateService.getEvaluatesByStatusAndProduct(status, productId));
@@ -132,6 +145,8 @@ public class ProductController extends BaseController {
     @ResponseBody
     public ResponseData receiverSave(Model model, EvaluateDTO evaluate) {
         MemberDTO member = this.getCurrentUser();
+        //根据评论评分设置满意度
+        evaluate.setEvaluateStatus(evaluate.getScore());
 
         return new SimpleHandler(request) {
             @Override
@@ -141,7 +156,7 @@ public class ProductController extends BaseController {
         }.handle();
     }
 
-
+    //伪搜索
     /*@RequestMapping("/list/selectAttribute")
     public String demo(Model model, @RequestParam Long categoryId,@RequestParam String selectAttribute){
         List<ProductDTO> products = productService.getProductBySelect(selectAttribute);

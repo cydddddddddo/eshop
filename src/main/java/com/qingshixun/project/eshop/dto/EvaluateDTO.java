@@ -46,9 +46,9 @@ public class EvaluateDTO extends BaseDTO {
         setEvaluateStatus();
     }
 
-    public EvaluateDTO(int status){
+/*    public EvaluateDTO(int status){
         setEvaluateStatus(status);
-    }
+    }*/
 
     public Integer getScore() {
         return score;
