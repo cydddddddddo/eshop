@@ -64,12 +64,14 @@ public class ProductController extends BaseController {
 
         // 非空验证
         if (!products.isEmpty()) {
+
             // 获取第一个商品的类型id
             Long typeId = products.get(0).getProductType().getId();
             //品牌
             model.addAttribute("brands", brandService.getBrandsByCategory(categoryId));
             //可选择的筛选条件
             model.addAttribute("productTypeAttributes", productTypeAttributeService.getProductTypeAttributesByProductType(typeId));
+
         }
         //左侧分类
         model.addAttribute("productCategories", productCategoryService.getProductCategories());

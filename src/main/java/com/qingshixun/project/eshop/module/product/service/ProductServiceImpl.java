@@ -1,11 +1,13 @@
 package com.qingshixun.project.eshop.module.product.service;
 
+import com.qingshixun.project.eshop.dto.ProductCategoryDTO;
 import com.qingshixun.project.eshop.dto.ProductDTO;
 import com.qingshixun.project.eshop.module.product.dao.ProductDaoMyBatis;
 import com.qingshixun.project.eshop.web.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,7 +15,8 @@ public class ProductServiceImpl extends BaseService {
 
     @Autowired
     private ProductDaoMyBatis productDao;
-
+    @Autowired
+    private ProductCategoryServiceImpl productCategoryService;
     @Autowired
     private ProductTypeValueServiceImpl productTypeValueService;
 
@@ -42,7 +45,22 @@ public class ProductServiceImpl extends BaseService {
      * 获取指定类型商品列表
      */
     public List<ProductDTO> getProductsByCategory(Long categoryId) {
-        return productDao.getProductsByCategory(categoryId);
+    	List<ProductDTO> products=new ArrayList(); 
+    	getProducts(categoryId,products);
+    	return products;
+    }
+    public void getProducts(Long categoryId,List<ProductDTO> products) {
+    	List<ProductCategoryDTO> categorys=productCategoryService.getProductCategoriesByParent(categoryId);
+    	while(categorys.size()!=0){
+    		for(ProductCategoryDTO category:categorys) {
+    			getProducts(category.getId(),products);
+    		}
+    		return;
+    	}
+    	List<ProductDTO> newProducts=productDao.getProductsByCategory(categoryId);
+        if(newProducts.size()>0) {
+        	products.addAll(newProducts);
+        }
     }
 
     /**

@@ -9,17 +9,17 @@
   <div id="categoryItem" class="all-sort-list" style="height:451px;float: left;">
     <div class="item bo" th:each="productCategory : ${productCategories}">
       <h3>
-        <span>·</span><a href="#" th:text="${productCategory.name}"></a>
+       <span>·</span><a th:text="${productCategory.name}" th:href="@{/front/product/list(categoryId=${productCategory.id})}"></a>
       </h3>
       <div class="item-list clearfix">
         <div class="close">x</div>
         <div class="subitem">
           <dl class="fore1" th:each="child : ${productCategory.children}">
             <dt>
-              <a href="#" th:text="${child.name}"></a>
+              <a th:text="${child.name}" th:href="@{/front/product/list(categoryId=${child.id})}"></a>
             </dt>
             <dd>
-              <em th:each="grandson : ${child.children}"><a th:href="@{/front/product/list(categoryId=${grandson.id})}" th:text="${grandson.name}"></a></em>
+               <em th:each="grandson : ${child.children}"><a th:href="@{/front/product/list(categoryId=${grandson.id})}" th:text="${grandson.name}"></a></em>
             </dd>
           </dl>
         </div>

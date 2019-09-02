@@ -31,6 +31,7 @@
           欢迎 <span th:if="${session['member']} != null" th:text="${session['member'].userName}"></span> 来到明博商城网！
           <a th:if="${session['member']} == null" th:href="@{/front/login}">登录</a>|
           <a th:if="${session['member']} != null" th:href="@{/front/logout}">退出登录</a>
+
           <a th:if="${session['member']} == null" th:href="@{/front/register}">免费注册</a>|
 
 <!--          <a th:href="@{/front/order/list}">我的订单</a>-->
@@ -41,7 +42,7 @@
            <!-- 新增个人中心 -->
           <a th:if="${session['member']} != null" th:href="@{/front/personal}">个人中心</a>
           <a th:if="${session['member']} == null" th:href="@{/front/login}">个人中心</a> |
-          <a th:href="@{/front/help}">帮助中心</a>
+          <a th:href="@{/front/help}">帮助中心</a> |<a th:href="@{/front/question}">|常见问题</a>
 
         </div>
       </div>
