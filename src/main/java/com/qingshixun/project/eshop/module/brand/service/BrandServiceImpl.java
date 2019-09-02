@@ -22,6 +22,7 @@ public class BrandServiceImpl extends BaseService {
      * 获取指定类型的品牌列表
      */
     public List<BrandDTO> getBrandsByCategory(Long categoryId) {
+
     	List<BrandDTO> brands=new ArrayList();
     	getBrands(categoryId,brands);
         return brands;

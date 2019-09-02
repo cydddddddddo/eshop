@@ -47,10 +47,11 @@ public class CartItemDTO extends BaseDTO {
     public ProductDTO getProduct() {
         return product;
     }
-
-    public void setProduct(ProductDTO product) {
+    
+    public void setProduct(ProductDTO product , Integer quantity) {
         this.product = product;
-        setQuantity(1);
+        //设置商品数量，新建为1，已有商品设置为数据库中的数量（优化）
+        setQuantity(quantity);
     }
 
     public MemberDTO getMember() {

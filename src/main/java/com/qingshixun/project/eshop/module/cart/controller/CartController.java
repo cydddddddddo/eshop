@@ -19,7 +19,12 @@ public class CartController extends BaseController {
 
     @Autowired
     private CartItemServiceImpl cartItemService;
-
+    
+    /**
+     * 进入购物车列表
+     * @param model
+     * @return
+     */
     @RequestMapping("/list")
     public String carts(Model model) {
         MemberDTO member = this.getCurrentUser();
@@ -31,10 +36,17 @@ public class CartController extends BaseController {
         model.addAttribute("carts", cartItems);
         // 获取当前购物车的商品数量
         model.addAttribute("totalCartCount", cartItemService.getTotalCartCount(cartItems));
+        
+        setSessionAttribute("member", member);
 
         return "/cart/list";
     }
-
+    
+    /**
+     * 加入购物车
+     * @param productId
+     * @return
+     */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public ResponseData save(@RequestParam Long productId) {
@@ -47,7 +59,13 @@ public class CartController extends BaseController {
             }
         }.handle();
     }
-
+    
+    /**
+     * 设置购物车商品的数量
+     * @param productId
+     * @param quantity
+     * @return
+     */
     @RequestMapping(value = "/set/quantity/{productId}/{quantity}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseData setCartCount(@PathVariable Long productId, @PathVariable int quantity) {

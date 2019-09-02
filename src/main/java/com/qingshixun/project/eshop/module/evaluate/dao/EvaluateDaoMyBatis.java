@@ -20,6 +20,13 @@ public interface EvaluateDaoMyBatis {
     EvaluateDTO getEvaluateByMemberAndProductAndOrder(@Param("memberId") Long memberId, @Param("productId") Long productId, @Param("orderId") Long orderId);
 
     /**
+     * 获取指定用户的所有评价
+     */
+    List<EvaluateDTO> getEvaluateByMember(@Param("memberId") Long memberId);
+
+    
+    
+    /**
      * 获取项目总分
      */
     Integer getTotalScoreByProduct(@Param("productId") Long productId);

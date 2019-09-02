@@ -3,6 +3,7 @@
 
 <header th:replace="header::headerFragment('首页')"></header>
 <body>
+
 <div th:replace="header::header-body"></div>
 <div class="wrap">
   <div id="categoryItem" class="all-sort-list" style="height:451px;float: left;">
@@ -25,6 +26,7 @@
       </div>
     </div>
   </div>
+
   <div class="banner comWidth">
     <div id="banner_tabs" class="flexslider banner-bar fr">
       <ul class="slides imgBox">
@@ -42,6 +44,15 @@
         <li><a>2</a></li>
       </ol>
     </div>
+
+    <!--        加个二维码-->
+    <div style="right: auto">
+      <h1>麻烦大家打赏一下这个可怜的孩子吧</h1>
+    </div>
+    <div style="right: auto">
+      <img src="https://mobilecodec.alipay.com/show.htm?code=a6x03400dhlebuavpp6rt33&picSize=M" width="150px" height="150x">
+    </div>
+
   </div>
 </div>
 <div class="mainList comWidth cl">
@@ -152,7 +163,9 @@
 </div>
 <div th:replace="footer::footer-body"></div>
 <div th:replace="footer::footer"></div>
+
 <script type="text/javascript">
+
   $(function () {
     $('#searchPanel').show()
     var bannerSlider = new Slider($('#banner_tabs'), {
@@ -211,6 +224,7 @@
       $(this).parent().hide()
     })
   })
+
 </script>
 </body>
 </html>

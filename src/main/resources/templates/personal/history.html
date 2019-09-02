@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="header::headerFragment('浏览记录')"></header>
+<head>
+<meta charset="UTF-8">
+<title>浏览记录</title>
+</head>
+
+<link rel="stylesheet" th:href="@{/css/account.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/plugins/alert-confirm.css}" type="text/css">
+
+<body class="grey_bg">
+<div th:replace="header::header-body"></div>
+
+<!-- <form action=""></form> -->
+<div class="mainContent comWidth">
+  <div class="leftArea fl">
+  
+<div class="item-info">
+        <ul>
+          <!-- 商品列表 -->
+          <li class="item-pic" th:each="product : ${products}">
+          
+          <ul class="product_time">
+          	<li th:text="${product.createTime}"></li>
+          </ul>
+          
+            <div class="picBox">
+              <a th:href="@{/front/product/main(productId=${product.id})}"><img th:src="${product.productImage}" alt="商品-手机"></a>
+            </div>
+            <a th:href="@{/front/product/main(productId=${product.id})}" class="products-des" th:text="${product.name}"></a>
+            
+            <a class="delete-receiver-btn" th:data-id="${product.createTime}" th:href="@{/front/personal/delete(createTime=${product.createTime})}"><span class="fr"> 删除</span></a>
+            
+            <div class="cur">
+              <span class="products-price">￥<span th:text="${product.marketPrice}"></span></span><a href="#"><span th:text="${product.evaluateCount}"></span>条</a><em>评论</em>
+            </div>
+            <br>
+          </li>
+        </ul>
+      </div>
+   </div>
+</div>
+
+<div th:replace="footer::footer-body"></div>
+<div th:replace="footer::footer"></div>
+
+
+</body>
+</html>

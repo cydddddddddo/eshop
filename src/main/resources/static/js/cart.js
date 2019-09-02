@@ -18,6 +18,11 @@ var cart = (function () {
     $.each($('input[class*=text_box]'), function (i, t) {
       subtotal($(t))
     })
+    //分配每个商品的库存
+    $.each($('input[class*=judge'), function (i, s) {
+      subtotal($(s))
+    })
+    
     $('.checkAllProduct').click(function () {
       checkAllProduct(this)
     })
@@ -33,9 +38,21 @@ var cart = (function () {
     // 点击添加数量按钮触发事件
     $('.add').click(function () {
       var t = $(this).parent().find('input[class*=text_box]')
+      //设置库存值
+      var s = $(this).parent().find('input[class*=judge]')
       t.val(parseInt(t.val()) + 1)
       if (isNaN(t.val())) {
         t.val(1)
+      }
+      //判断库存是否充足
+      if (t.val() > parseInt(s.val())){
+    	 alert("库存不足!");
+    	 t.val(s.val());
+      }
+      //库存多于200件时，商品限购200
+      if (t.val() > 200 ){
+    	  alert("限购200件!");
+    	  t.val(200);
       }
       var cartItemId = $(this).data('id')
       var quantity = parseInt(t.val())
@@ -90,12 +107,24 @@ var cart = (function () {
     // 数量输入框输入后离开的事件
     $('input[class*=text_box]').keyup(function () {
       var t = $(this)
+      //设置库存值
+      var s = $(this).parent().find('input[class*=judge]')
       t.val(parseInt(t.val()))
       if (isNaN(t.val()) || parseInt(t.val()) <= 0) {
         t.val(1)
       }
       if (t.val(parseInt(t.val())) != t.val()) {
         t.val(parseInt(t.val()))
+      }
+      //判断库存是否充足
+      if (t.val() > parseInt(s.val())){
+     	 alert("库存不足!");
+     	 t.val(s.val());
+       }
+      //库充多于200件时，设置限购200件
+      if (t.val() > 200 ){
+    	  alert("限购200件!");
+    	  t.val(200);
       }
 
       var productId = $(this).data('id')

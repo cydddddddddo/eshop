@@ -3,6 +3,7 @@
 
 <header th:replace="header::headerFragment('商品详情页')"></header>
 <link th:href="@{/css/detail.css}" rel="stylesheet" type="text/css">
+
 <body class="grey_bg">
 <div th:replace="header::header-body"></div>
 <div class="mainContent comWidth">
@@ -54,7 +55,9 @@
                 <a class="right-select-active productAttribute" href="javascript:" th:each="value : ${typeValue.values}" th:text="${value}"></a>
               </dd>
             </dl>
+            
             <input id="productQuantity" type="text" name="quantity" value="1" hidden="true">
+            
           </div>
           <div class="right-bottom">
             <div class="buyButton-box">
@@ -63,10 +66,26 @@
                   <input id="addCart" type="submit" value="加入购物车">
                 </div>
               </a>
+            </div> 
+            
+           <div class="addButton-box">
+              <!-- <a th:href="@{/front/product/buyNow(productId=8_1)}"> -->
+              <!-- <a th:href="@{/front/order/settlement(params=${product.id}+ '_' +${quantity})}"> -->
+              <a th:href="@{/front/order/settlement(params=${product.id}+ '_' +1)}">
+                <div class="addbutton-box-add">
+                  <input type="button" value="立即购买"> 
+                </div>
+              </a>
             </div>
-          </div>
+          </div> 
         </div>
       </form>
+      
+      <!-- <form id="addcartItem" onSubmit="return false;">
+      	<input id="productQuantity" type="text" name="quantity" value="1" >
+      	<input type="submit" value="提交">
+      </form> -->
+      
     </div>
   </div>
   <div class="bottom-box comWidth">
@@ -128,7 +147,7 @@
               <div class="middle-tab">
                 <ul>
                   <li>
-                    <a class=" evaluateStatus active " data-value=" " href="javascript:">全部(<span th:text="${totalEvaluateCount}"></span>)</a>
+                    <a class=" evaluateStatus active " data-value="全部" href="javascript:">全部(<span th:text="${totalEvaluateCount}"></span>)</a>
                   </li>
                   <li>
                     <a class=" evaluateStatus  " data-value="满意" href="javascript:">满意(<span th:text="${satisfiedEvaluateCount}"></span>)</a>

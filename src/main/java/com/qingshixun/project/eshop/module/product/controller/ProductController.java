@@ -9,9 +9,11 @@ import com.qingshixun.project.eshop.module.brand.service.BrandServiceImpl;
 import com.qingshixun.project.eshop.module.cart.service.CartItemServiceImpl;
 import com.qingshixun.project.eshop.module.evaluate.service.EvaluateServiceImpl;
 import com.qingshixun.project.eshop.module.order.service.OrderServiceImpl;
+import com.qingshixun.project.eshop.module.personal.service.PersonalService;
 import com.qingshixun.project.eshop.module.product.service.ProductCategoryServiceImpl;
 import com.qingshixun.project.eshop.module.product.service.ProductServiceImpl;
 import com.qingshixun.project.eshop.module.product.service.ProductTypeAttributeServiceImpl;
+import com.qingshixun.project.eshop.util.DateUtils;
 import com.qingshixun.project.eshop.web.BaseController;
 import com.qingshixun.project.eshop.web.ResponseData;
 import com.qingshixun.project.eshop.web.SimpleHandler;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -46,6 +49,9 @@ public class ProductController extends BaseController {
 
     @Autowired
     private OrderServiceImpl orderService;
+    
+    @Autowired
+    private PersonalService personalService;
 
     /**
      * 商品列表页
@@ -58,13 +64,16 @@ public class ProductController extends BaseController {
 
         // 非空验证
         if (!products.isEmpty()) {
-            
-            
 
+            // 获取第一个商品的类型id
+            Long typeId = products.get(0).getProductType().getId();
+            //品牌
             model.addAttribute("brands", brandService.getBrandsByCategory(categoryId));
-            model.addAttribute("productTypeAttributes",productTypeAttributeService.getProductTypeAttributesByCategoryId(products));
-        }
+            //可选择的筛选条件
+            model.addAttribute("productTypeAttributes", productTypeAttributeService.getProductTypeAttributesByProductType(typeId));
 
+        }
+        //左侧分类
         model.addAttribute("productCategories", productCategoryService.getProductCategories());
         model.addAttribute("totalCartCount", cartItemService.getTotalCartCount(member, getSession()));
         model.addAttribute("products", products);
@@ -73,11 +82,27 @@ public class ProductController extends BaseController {
         return "/product/list";
     }
 
+
+    /**
+     * 产品详情中的评论列表中除评论外的数据
+     * @param model
+     * @param productId
+     * @return
+     */
     @RequestMapping("/main")
     public String main(Model model, @RequestParam Long productId) {
-        ProductDTO product = productService.getProduct(productId);
 
-        MemberDTO member = getCurrentUser();
+        ProductDTO product = productService.getProduct(productId);
+        final MemberDTO member = this.getCurrentUser();
+        
+        if(member != null) {
+        	String createTime = DateUtils.timeToString(new Date());
+        	Long memberId = member.getId();
+            personalService.saveIds(productId,memberId,createTime);}
+        
+        //MemberDTO member = getCurrentUser();
+        
+        int quantity = 1;
 
         model.addAttribute("product", product);
         model.addAttribute("cart", new CartItemDTO());
@@ -89,10 +114,19 @@ public class ProductController extends BaseController {
         model.addAttribute("commonlyEvaluateCount", evaluateService.getEvaluateCountByStatusAndProduct("一般", product.getId()));
         model.addAttribute("disSatisfiedEvaluateCount", evaluateService.getEvaluateCountByStatusAndProduct("不满意", product.getId()));
         model.addAttribute("totalCartCount", cartItemService.getTotalCartCount(member, getSession()));
-
+        model.addAttribute("quantity",quantity);
+        //model.addAttribute("productId",productId);
+        
         return "/product/main";
     }
 
+    /**
+     * 获得评论数据
+     * @param model
+     * @param status
+     * @param productId
+     * @return
+     */
     @RequestMapping("/evaluate/list")
     public String evaluates(Model model, @RequestParam(required = false, defaultValue = "") String status, @RequestParam Long productId) {
         model.addAttribute("evaluates", evaluateService.getEvaluatesByStatusAndProduct(status, productId));
@@ -109,6 +143,7 @@ public class ProductController extends BaseController {
      */
     @RequestMapping("/evaluate/{productId}/{orderId}")
     public String productEvaluate(Model model, @PathVariable Long productId, @PathVariable Long orderId) throws Exception {
+    	
         // 获取当前的登录用户
         MemberDTO dbMember = this.getCurrentUser();
         model.addAttribute("product", productService.getProduct(productId));
@@ -131,6 +166,8 @@ public class ProductController extends BaseController {
     @ResponseBody
     public ResponseData receiverSave(Model model, EvaluateDTO evaluate) {
         MemberDTO member = this.getCurrentUser();
+        //根据评论评分设置满意度
+        evaluate.setEvaluateStatus(evaluate.getScore());
 
         return new SimpleHandler(request) {
             @Override
@@ -138,6 +175,20 @@ public class ProductController extends BaseController {
                 evaluateService.saveOrUpdateEvaluate(evaluate, member);
             }
         }.handle();
+    }
+
+
+    @RequestMapping("/search/list")
+    public String getSelectProduct(Model model, @RequestParam(required = false) String searchPargam, @RequestParam(required = false) int brandId, @RequestParam Long categoryId){
+        String selectAttribute = null;
+        if (!("".equals(searchPargam))){
+            searchPargam = searchPargam.replace(",","%");
+             selectAttribute = searchPargam.substring(0,searchPargam.length()-1);
+        }
+
+        List<ProductDTO> products = productService.getProductBySelect(selectAttribute,brandId,categoryId);
+        model.addAttribute("products", products);
+        return "/product/select";
     }
 
 }

@@ -45,6 +45,19 @@ public class EvaluateServiceImpl extends BaseService {
 
         return evaluate;
     }
+    
+    /**
+     * 获取指定用户的所有评价
+     */
+    public List<EvaluateDTO> getEvaluateByMember(Long memberId) {
+ 
+//        if (evaluate == null) {
+//            return new EvaluateDTO();
+//        }
+
+        return evaluateDao.getEvaluateByMember(memberId);
+    }
+    
 
     /**
      * 获取平均评论分数

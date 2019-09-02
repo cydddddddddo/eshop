@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查询产品</title>
+</head>
+<body>
+<!-- 产品列表 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">产品搜索结果</h3>
+        </div>
+
+            <tr>
+                <th>产品ID</th>
+                <th>名称</th>
+                <th>价格</th>
+                <th>市场价格</th>
+                <th>库存</th>
+                <th>图片</th>
+            </tr>
+            </thead>
+            <tbody>
+            <li th:each="product : ${productList}">
+                <tr>
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.name }"></td>
+                    <td th:text="${product.price }"></td>
+                    <td th:text="${product.marketPrice}"></td>
+                    <td th:text="${product.store }"></td>
+<!--                    <td th:text="${product.productImage}"></td>-->
+                    <img th:src="${product.productImage}" alt="商品-手机">
+                </tr>
+            </li>
+
+    </div>
+</body>
+</html>
