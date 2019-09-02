@@ -53,6 +53,9 @@ public class ProductController extends BaseController {
     @Autowired
     private PersonalService personalService;
 
+    @Autowired
+    private ProductCategoryServiceImpl productCategoryServiceImpl;
+
     /**
      * 商品列表页
      */
@@ -180,15 +183,55 @@ public class ProductController extends BaseController {
 
     @RequestMapping("/search/list")
     public String getSelectProduct(Model model, @RequestParam(required = false) String searchPargam, @RequestParam(required = false) int brandId, @RequestParam Long categoryId){
+        List<ProductDTO> tempProducts = null;
+        List<ProductDTO> products = null;
+        Long[] num_1 = null;
+        Long[] num_2 = {};
+        Long[] tempNum = null;
+        if (productCategoryServiceImpl.getProductCategoriesStatus(categoryId)!=null){
+            num_2 = productCategoryServiceImpl.getProductCategoriesId(categoryId);
+        }else {
+            num_1 = productCategoryServiceImpl.getProductCategoriesId(categoryId);
+            for (int i = 0; i < num_1.length; i++) {
+                tempNum = productCategoryServiceImpl.getProductCategoriesId(num_1[i]);
+                num_2 = mergeLongArray(tempNum,num_2);
+            }
+        }
+
         String selectAttribute = null;
         if (!("".equals(searchPargam))){
             searchPargam = searchPargam.replace(",","%");
              selectAttribute = searchPargam.substring(0,searchPargam.length()-1);
         }
 
-        List<ProductDTO> products = productService.getProductBySelect(selectAttribute,brandId,categoryId);
+        products = productService.getProductBySelect(selectAttribute,brandId,categoryId);
+
+        if(num_2!=null){
+            for (int i = 0; i < num_2.length; i++) {
+                tempProducts = productService.getProductBySelect(selectAttribute,brandId,num_2[i]);
+                products = mergeList(tempProducts,products);
+            }
+        }
         model.addAttribute("products", products);
         return "/product/select";
+    }
+
+    public List<ProductDTO> mergeList(List<ProductDTO> tempProducts, List<ProductDTO> products){
+        for (int i = 0; i < tempProducts.size(); i++) {
+            products.add(tempProducts.get(i));
+        }
+        return products;
+    }
+
+    public Long[] mergeLongArray(Long[] tempNum,Long[] num_2){
+        Long[] num = new Long[tempNum.length+num_2.length];
+        for (int i = 0; i < tempNum.length; i++) {
+            num[i] = tempNum[i];
+        }
+        for (int j = 0; j < num_2.length; j++) {
+            num[tempNum.length+j] = num_2[j];
+        }
+        return num;
     }
 
 }

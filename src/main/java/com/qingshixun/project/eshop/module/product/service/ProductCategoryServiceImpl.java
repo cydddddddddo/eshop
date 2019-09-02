@@ -47,4 +47,12 @@ public class ProductCategoryServiceImpl extends BaseService {
         return productCategoryDao.getProductCategoriesByParent(parentId);
     }
 
+
+    public Long[] getProductCategoriesId(Long categoryId){
+        return productCategoryDao.getProductCategoriesId(categoryId);
+    }
+
+    public Long getProductCategoriesStatus(Long categoryId){
+        return productCategoryDao.getProductCategoriesStatus(categoryId);
+    }
 }

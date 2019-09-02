@@ -132,11 +132,11 @@
                     </div>
                     <div class="bar">
                       <ul>
-                        <li>非常不满</li>
-                        <li>不满意</li>
-                        <li>一般</li>
-                        <li>满意</li>
-                        <li>非常满意</li>
+                        <li th:if=" ${score} lt '1'">非常不满</li>
+                        <li th:if=" ${score} eq '2'">不满意</li>
+                        <li th:if=" ${score} eq '3'">一般</li>
+                        <li th:if=" ${score} eq '4'">满意</li>
+                        <li th:if=" ${score} eq '5'">非常满意</li>
                       </ul>
                     </div>
                     <div class="hr-10"></div>

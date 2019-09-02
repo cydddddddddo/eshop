@@ -39,6 +39,12 @@ public class ProductTypeAttributeServiceImpl extends BaseService {
     	}
         return productTypeAttributes;
     }
+
+	/**
+	 *
+	 * @param products
+	 * @param typeIds
+	 */
     public void getProductTypeAttributes(List<ProductDTO> products,List<Long> typeIds) { 	
     	if(products.size()>0) {
     		for(ProductDTO product:products) {

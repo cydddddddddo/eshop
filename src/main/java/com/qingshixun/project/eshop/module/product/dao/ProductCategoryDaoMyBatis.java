@@ -18,4 +18,7 @@ public interface ProductCategoryDaoMyBatis {
      */
     List<ProductCategoryDTO> getProductCategoriesByParent(@Param("parentId") Long parentId);
 
+    Long[] getProductCategoriesId(@Param("categoryId")Long categoryId);
+
+    Long getProductCategoriesStatus(@Param("categoryId")Long categoryId);
 }

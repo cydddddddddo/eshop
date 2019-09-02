@@ -27,6 +27,7 @@ public class BrandServiceImpl extends BaseService {
     	getBrands(categoryId,brands);
         return brands;
     }
+
     public void getBrands(Long categoryId,List<BrandDTO> brands) { 	
     	List<ProductCategoryDTO> categoryDTOs=productCategoryService.getProductCategoriesByParent(categoryId);
     	while(categoryDTOs.size()!=0){

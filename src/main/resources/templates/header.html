@@ -42,7 +42,7 @@
            <!-- 新增个人中心 -->
           <a th:if="${session['member']} != null" th:href="@{/front/personal}">个人中心</a>
           <a th:if="${session['member']} == null" th:href="@{/front/login}">个人中心</a> |
-          <a th:href="@{/front/help}">帮助中心</a> |<a th:href="@{/front/question}">|常见问题</a>
+          <a th:href="@{/front/help}">帮助中心</a>
 
         </div>
       </div>

@@ -2,11 +2,14 @@ package com.qingshixun.project.eshop.module.index.controller;
 
 import com.qingshixun.project.eshop.dto.MemberDTO;
 import com.qingshixun.project.eshop.dto.ProductDTO;
+import com.qingshixun.project.eshop.dto.QuestionDTO;
 import com.qingshixun.project.eshop.module.advertisement.service.AdvertisementServiceImpl;
+import com.qingshixun.project.eshop.module.answer.service.AnswerServiceImpl;
 import com.qingshixun.project.eshop.module.cart.service.CartItemServiceImpl;
 import com.qingshixun.project.eshop.module.index.service.IndexServiceImpl;
 import com.qingshixun.project.eshop.module.product.service.ProductCategoryServiceImpl;
 import com.qingshixun.project.eshop.module.product.service.ProductServiceImpl;
+import com.qingshixun.project.eshop.module.question.service.QuestionServiceImpl;
 import com.qingshixun.project.eshop.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +39,12 @@ public class IndexController extends BaseController {
 
     @Autowired
     private IndexServiceImpl indexService;
+
+    @Autowired
+    QuestionServiceImpl questionService;
+
+    @Autowired
+    AnswerServiceImpl answerService;
 
     @RequestMapping(value = {"/front/index", ""})
     public String index(Model model) {
@@ -92,5 +101,12 @@ public class IndexController extends BaseController {
     @RequestMapping("front/help")
     public String help(){
         return "/help";
+    }
+
+    @RequestMapping("/front/question")
+    public String questions(Model model) {
+        List<QuestionDTO> questions = questionService.getQuestion();
+        model.addAttribute("questions",questions);
+        return "/question/question";
     }
 }
