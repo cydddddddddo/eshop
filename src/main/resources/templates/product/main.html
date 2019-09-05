@@ -132,7 +132,8 @@
                     </div>
                     <div class="bar">
                       <ul>
-                        <li th:if=" ${score} lt '1'">非常不满</li>
+                        <li th:if=" ${score} eq '0'">暂无评价</li>
+                        <li th:if=" ${score} eq '1'">非常不满</li>
                         <li th:if=" ${score} eq '2'">不满意</li>
                         <li th:if=" ${score} eq '3'">一般</li>
                         <li th:if=" ${score} eq '4'">满意</li>

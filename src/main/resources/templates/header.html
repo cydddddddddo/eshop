@@ -88,8 +88,11 @@
         <div class="nav">
           <ul class="clearfix">
             <li><a th:href="@{/front/index}" class="current">首页</a></li>
-
-            <li><a th:href="@{http://localhost:8080/login/to_login}">商品秒杀</a></li>
+            <li>
+              <a th:if="${session['member']}==null" th:href="@{/front/login}">商品秒杀</a>
+              <a th:if="${session['member']}!=null" th:href="@{http://localhost:8080/login/go_login(userName = ${session['member'].userName})}">商品秒杀</a></li>
+            <!--th:href="@{http://localhost:8080/login/go_login(userName = ${session['member'].userName})}-->
+            <!--th:href="@{/front/product/list/selectAttribute(categoryId=${categoryId},selectAttribute=${brand.name})}"-->
             <li><a th:href="@{/front/sorting}">商品排行</a></li>
             <li><a th:href="@{https://ju.taobao.com/?spm=a21bo.2017.201859.2.5af911d9vaKJeX}">每日团购</a></li>
             <li><a th:href="@{https://a.jd.com/}">优惠卷</a></li>
@@ -98,6 +101,7 @@
 
           </ul>
         </div>
+        <div id="seckill_view"></div>
       </div>
     </div>
   </div>

@@ -77,7 +77,6 @@ var order = (function() {
 								}).on('show.ms.alert shown.ms.alert hide.ms.alert hidden.ms.alert');
 								payDiv.alertconfirm('show');
 							}
-
 						});
 					}
 
@@ -124,7 +123,6 @@ var order = (function() {
 								toastr.success('付款成功！');
 								payDiv.alertconfirm('hide');
 								window.location.href = g_rootPath + "/front/order/list";
-								
 							}
 
 						});

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qingshixun.project.eshop.module.sort.dao.SortDaoMybatis">
+<mapper namespace="online.shixun.module.sort.dao.SortDaoMybatis">
     <select id="getAllProducts" resultType="ProductDTO">
         SELECT * from
         qsx_product

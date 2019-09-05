@@ -23,9 +23,9 @@
     <div class="comWidth loginBox">
       <form class="form-vertical" th:action="@{/front/login}" method="post">
         <p>用户名</p>
-        <input type="text" name="username" autocomplete="off" value="">
+        <input type="text" name="username" autocomplete="off" value="tiger">
         <p>密码</p>
-        <input type="password" name="password" autocomplete="off" value="">
+        <input type="password" name="password" autocomplete="off" value="tiger">
         <div class="alert alert-warning fade in text-center text-danger text-error" th:if="${param.error}" style="text-align: center; padding-bottom: 13px;">
           <span th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"></span>
         </div>

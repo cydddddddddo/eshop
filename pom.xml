@@ -8,7 +8,7 @@
     <version>2.1.7.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.qingshixun.project</groupId>
+  <groupId>online.shixun</groupId>
   <artifactId>eshop-web</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>eshop-web</name>
@@ -125,6 +125,10 @@
       <groupId>com.mchange</groupId>
       <artifactId>c3p0</artifactId>
       <version>0.9.5.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-amqp</artifactId>
     </dependency>
 
   </dependencies>
