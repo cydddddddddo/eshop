@@ -23,6 +23,7 @@
     WHERE
       ord.orderStatus = ds.code AND
       ord.member_id = #{memberId}
+    ORDER BY ord.updateTime DESC;
   </select>
 
   <select id="getOrder" resultType="OrderDTO">

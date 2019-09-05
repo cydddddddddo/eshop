@@ -48,7 +48,7 @@
           <!-- 根据付款状态显示不同的文字，付款的显示评价，没付款的显示去付款 -->
           <!--<c:choose>-->
           <!--<c:when test="${order.orderStatus.code=='ORDS_Pay'}">-->
-          <li th:if="${order.status.code} == 'ORDS_Pay'"><a th:href="@{'/front/order/detail/'+${order.id}}">评价</a><br><a th:href="@{'/front/order/after/'+${order.id}}">申请退货</a></li>
+          <li th:if="${order.status.code} == 'ORDS_Pay'"><a th:href="@{'/front/order/detail/'+${order.id}}">评价</a><br><a th:href="@{'/front/alipay/after/'+${order.id}}">申请退货</a></li>
           <!--</c:when>-->
           <!--<c:otherwise>-->
           <li th:if="${order.status.code} == 'ORDS_UnPay'"><a th:href="@{'/front/order/main/'+${order.id}}">去付款</a><br><a th:href="@{'/front/order/delete/'+${order.id}}">取消订单</a></li>
