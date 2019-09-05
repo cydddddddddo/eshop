@@ -87,6 +87,7 @@
         </div>
         <input th:if="${orderId} == null" id="commitOrder" type="button" value="提交订单">
         <input th:if="${orderId} != null" id="payOrder" type="button" value="确认付款">
+        <a style="height: 32px;width: 165px;color: #FFF;background-color: #E50007;margin-top: 15px;font-size: 20px;cursor: pointer;" th:if="${orderId} != null" th:href="@{'/front/alipay/pay/'+${orderId}}">支付宝支付</a>
       </div>
     </div>
   </div>
