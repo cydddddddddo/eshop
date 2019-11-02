@@ -17,7 +17,7 @@
   <properties>
     <java.version>1.8</java.version>
     <mybatis.version>2.1.0</mybatis.version>
-    <c3p0.version>0.9.5.1</c3p0.version>
+    <c3p0.version>0.9.5.4</c3p0.version>
     <lang3.version>3.3.2</lang3.version>
     <lang.version>2.6</lang.version>
     <guava.version>18.0</guava.version>
@@ -131,7 +131,7 @@
     <dependency>
       <groupId>com.mchange</groupId>
       <artifactId>c3p0</artifactId>
-      <version>0.9.5.1</version>
+      <version>0.9.5.4</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
